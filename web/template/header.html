@@ -1,0 +1,64 @@
+<ul class="header-inner clearfix">
+    <li class="logo hidden-xs">
+        <a data-ui-sref="pages.profile.profile-about">Proof-O-Existence</a>
+    </li>
+
+    <li class="pull-right">
+        <ul class="top-menu">
+            <li id="top-search">
+                <a href="" data-ng-click="hctrl.openSearch()"><i class="tm-icon zmdi zmdi-search"></i></a>
+            </li>
+            <li>
+                <a href=""><i class="tm-icon zmdi zmdi-refresh-sync"></i></a>
+            </li>
+            <li class="dropdown" uib-dropdown>
+                <a uib-dropdown-toggle href="">
+                    <i class="tm-icon zmdi zmdi-notifications"></i>
+                    <i class="tmn-counts">9</i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg stop-propagate pull-right">
+                    <div class="listview" id="notifications">
+                        <div class="lv-header">
+                            Notification
+
+                            <ul class="actions">
+                                <li>
+                                    <a href="" data-ng-click="hctrl.clearNotification($event)">
+                                        <i class="zmdi zmdi-check-all"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="lv-body">
+                            <a class="lv-item" ng-href="" ng-repeat="w in hctrl.messageResult.list">
+                                <div class="media">
+                                    <div class="pull-left">
+                                        <img class="lv-img-sm" ng-src="img/profile-pics/{{ w.img }}" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="lv-title">{{ w.user }}</div>
+                                        <small class="lv-small">{{ w.text }}</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <a class="lv-footer" href="">View Previous</a>
+                    </div>
+
+                </div>
+            </li>
+
+        </ul>
+    </li>
+</ul>
+
+<!-- Top Search Content -->
+<div id="top-search-wrap">
+    <div class="tsw-inner">
+        <i id="top-search-close" class="zmdi zmdi-arrow-left" data-ng-click="hctrl.closeSearch()"></i>
+        <input type="text">
+    </div>
+</div>
