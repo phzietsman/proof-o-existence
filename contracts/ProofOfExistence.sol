@@ -1,44 +1,75 @@
 pragma solidity ^0.4.23;
 
-
-
 contract ProofOfExistence {
   
-	struct Claim {
-		string name;
-		string description;
-		string dataHash;
-		string ipfs;
-		uint block;
-	}
+  struct Claim {
+    string name;
+    string description;
+    string ipfs;
+    uint blockNumber;
+  }
 
-	struct Endorsement {
-		uint8 state;
-		uint block;
-		address endorser;
-		string ipfs;
-	}
+  struct Bio {
+    string name;
+    string ipfs;
+    uint index;
+  }
 
-	Event NewEndorsementRequest (uint _endorsementId, uint _claimId);
+  address[] private registeredAddresses;
 
-	Claim[] public Claims;
-	Endorsement[] public Endorsements;
+  mapping(address => Claim[]) private addressClaimIndex;
+  mapping(address => Bio) private addressBio;
 
-	mapping(address => int[])  AddressClaims;
-	mapping(address => int[])  AddressEndorsements;
 
-	mapping(int => int[])  ClaimEndorsement;
+  constructor() public {  }
 
-	mapping(address => string)  AddressPublicKey;
-	mapping(string => address)  PublicKeyAddress;
+  /** @dev Returns a claim for a given index
+    * @param _index The index for the claim to return
+    * @return name xxx
+    * @return description yyy
+    * @return ipfs The zzz
+    * @return blockNumber aaa
+  */
+  function getClaim (address _address, uint256 _index)
+  public
+  view
+  returns (string name, string description, string ipfs, uint blockNumber)
+  {
+    Claim memory thisClaim = addressClaimIndex[_address][_index];
+    return (thisClaim.name, thisClaim.description, thisClaim.ipfs, thisClaim.blockNumber);
+  }
 
-  // constructor() public {  }
+  function getBio (address _address)
+  public
+  view
+  returns (string name, string ipfs)
+  {
+    Bio memory thisBio = addressBio[_address];
+    return (thisBio.name, thisBio.ipfs);
+  }
 
-	/** @dev Calculates a rectangle's surface and perimeter.
-		* @param w Width of the rectangle.
-		* @param h Height of the rectangle.
-		* @return s The calculated surface.
-		* @return p The calculated perimeter.
-		*/
-	
+  function getRegisteredAddress (uint256 _index)
+  public
+  view
+  returns (address)
+  {
+    return registeredAddresses[_index];
+  }
+
+  function getRegisteredAddressCount ()
+  public
+  view
+  returns (uint count)
+  {
+    return registeredAddresses.length;
+  }
+
+  function register (string name, string bioIpfs)
+  public
+  returns (uint count)
+  {
+    return registeredAddresses.length;
+  }
+
+
 }
