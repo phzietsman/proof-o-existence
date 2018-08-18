@@ -1,35 +1,43 @@
 pragma solidity ^0.4.23;
 
-contract ProofOfExistence {
-  
-  struct Claim {
-    string name;
-    string description;
-    string ipfs;
-    uint blockNumber;
-  }
+import "./ProofOfExistenceEvents.sol";
+import "./ProofOfExistenceStructs.sol";
 
-  struct Bio {
-    string name;
-    string ipfs;
-    uint index;
-  }
+import "./openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
+contract ProofOfExistence is ProofOfExistenceEvents, ProofOfExistenceStructs, Ownable {
+
+  // ================================================  
+  // Storage
+  // ================================================
   address[] private registeredAddresses;
 
   mapping(address => Claim[]) private addressClaimIndex;
   mapping(address => Bio) private addressBio;
 
+  // ================================================  
+  // Modifiers
+  // ================================================
+  modifier onlyRegisteredAddresses() {
+    Bio memory thisAddressBio = addressBio[msg.sender];
+    require(thisAddressBio.index > 0, "AddresNotRegistered");
+    _;
+  }
 
-  constructor() public {  }
+  modifier onlyNewAddresses() {
+    Bio memory thisAddressBio = addressBio[msg.sender];
+    require(thisAddressBio.index == 0, "AddresAlreadyRegistered");
+    _;
+  }
 
-  /** @dev Returns a claim for a given index
-    * @param _index The index for the claim to return
-    * @return name xxx
-    * @return description yyy
-    * @return ipfs The zzz
-    * @return blockNumber aaa
-  */
+  constructor() public { 
+    // Create a blank bio, such that there will never be a valid address 
+    // at any index 0;
+    address zeroAddress = 0x0;
+    registeredAddresses.push(zeroAddress);
+    addressBio[zeroAddress] = Bio("ZeroAddress", "", 0);
+  }
+
   function getClaim (address _address, uint256 _index)
   public
   view
@@ -64,12 +72,24 @@ contract ProofOfExistence {
     return registeredAddresses.length;
   }
 
-  function register (string name, string bioIpfs)
+  function registerAddress (string _name, string _ipfs)
   public
-  returns (uint count)
+  onlyNewAddresses
+  returns (uint addressIndex)
   {
-    return registeredAddresses.length;
+    addressIndex = registeredAddresses.push(msg.sender) - 1;
+    addressBio[msg.sender] = Bio(_name, _ipfs, addressIndex);
+    emit NewAddressRegistered(msg.sender);
   }
 
+  function updateBio (string _name, string _ipfs)
+  public
+  onlyRegisteredAddresses
+  returns (uint)
+  {
+    addressBio[msg.sender].name = _name; 
+    addressBio[msg.sender].ipfs = _ipfs; 
+    return addressBio[msg.sender].index;
+  }
 
 }
