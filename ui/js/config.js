@@ -1,4 +1,4 @@
-angular.module('materialAdmin')
+angular.module('POEApp')
     .config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise("/login");
 

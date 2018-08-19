@@ -1,4 +1,8 @@
-
+# Ignore smart-contract build artifacts
 build/
 
+
+# Ignore UI build artifacts
 ui/node_modules/
+ui/js/templates\.js
+ui/js/ProofOfExistence\.json

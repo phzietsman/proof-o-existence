@@ -1,4 +1,4 @@
-angular.module('materialAdmin', [
+angular.module('POEApp', [
     'ngAnimate',
     'ngResource',
     'ui.router',
@@ -9,7 +9,7 @@ angular.module('materialAdmin', [
     'ngTable'
 ]);
 
-angular.module('materialAdmin').run([
+angular.module('POEApp').run([
     '$window',
     '$rootScope',
     '$state',
@@ -28,6 +28,7 @@ angular.module('materialAdmin').run([
         if($window.web3) {
             console.info("Web3js found");
             web3jsFactory.initializeWeb3js($window.web3, $window.Web3);
+            web3jsFactory.loadContract("4447");
         } else {
             $state.go('web3jsMissing');
         }

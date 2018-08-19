@@ -1,4 +1,4 @@
-angular.module('materialAdmin')
+angular.module('POEApp')
     .controller('materialadminCtrl', function (web3jsFactory, $state, growlService) {
         //Welcome Message
         growlService.growl('Already a user? Login ^^^', 'inverse')
@@ -131,22 +131,6 @@ angular.module('materialAdmin')
         }
 
     })
-
-
-
-    //=================================================
-    // LOGIN
-    //=================================================
-
-    .controller('accessController', function () {
-
-        //Status
-
-        this.login = 1;
-        this.register = 0;
-        this.forgot = 0;
-    })
-
 
     // =========================================================================
     // COMMON FORMS

@@ -6,7 +6,8 @@ module.exports = function(grunt) {
         less: {
             development: {
                 options: {
-                    paths: ["css"]
+                    paths: ["css"],
+                    javascriptEnabled: true
                 },
                 files: {
                     "css/app.css": "less/app.less",
@@ -25,8 +26,8 @@ module.exports = function(grunt) {
             },
         },
         ngtemplates: {
-          materialAdmin: {
-            src: ['template/**.html', 'template/**/**.html'],
+          POEApp: {
+            src: ['template/*.html', 'views/*.html'],
             dest: 'js/templates.js',
             options: {
               htmlmin: {
@@ -37,20 +38,28 @@ module.exports = function(grunt) {
           }
         },
         watch: {
-            // a: {
-            //     files: ['less/**/*.less'], // which files to watch
-            //     tasks: ['less', 'csssplit'],
-            //     options: {
-            //         nospawn: true
-            //     }
-            // },
+            a: {
+                files: ['less/**/*.less'], // which files to watch
+                tasks: ['less', 'csssplit'],
+                options: {
+                    nospawn: true
+                }
+            },
             b: {
-                files: ['template/**/*.html'], // which files to watch
+                files: ['views/**/*.html', 'template/**/*.html'], // which files to watch
                 tasks: ['ngtemplates'],
                 options: {
                     nospawn: true
                 }
             }
+        },
+        copy: {
+            abi: {
+              expand: true,
+              src: '../build/contracts/ProofOfExistence.json',
+              dest: 'js/',
+              flatten: true
+            },
         }
     });
 
@@ -59,8 +68,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-csssplit');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-angular-templates');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
     // Default task(s).
-    grunt.registerTask('default', ['less']);
+    grunt.registerTask('default', ['less', 'ngtemplates', 'copy:abi', 'watch']);
 
 };

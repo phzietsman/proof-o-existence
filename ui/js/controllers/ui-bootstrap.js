@@ -1,4 +1,4 @@
-angular.module('materialAdmin')
+angular.module('POEApp')
 .controller('AlertDemoCtrl', function ($scope) {
         $scope.alerts = [
             { type: 'info', msg: "Well done! You successfully read this important alert message." },

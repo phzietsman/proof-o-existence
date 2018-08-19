@@ -1,4 +1,4 @@
-angular.module('materialAdmin') 
+angular.module('POEApp') 
 
     // =========================================================================
     // INPUT FEILDS MODIFICATION

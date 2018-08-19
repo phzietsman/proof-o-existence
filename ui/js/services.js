@@ -1,4 +1,4 @@
-angular.module('materialAdmin')
+angular.module('POEApp')
     .service('messageService', ['$resource', function($resource){
         this.getMessage = function(img, user, text) {
             var gmList = $resource("data/messages-notifications.json");
