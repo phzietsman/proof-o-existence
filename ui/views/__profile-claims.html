@@ -1,0 +1,54 @@
+<div class="timeline">
+
+    <div class="t-view" data-tv-type="image">
+        <div class="tv-header media">
+            <div class="media-body p-t-5">
+                <strong class="d-block">Claim name</strong>
+                <small class="c-gray">Block Number</small>
+            </div>
+
+        </div>
+
+        <div class="tv-body">
+
+            <div class="lightbox m-b-20">
+                <div data-src="img/headers/sm/4.png">
+                    <div class="lightbox-item pull-left">
+                        <img src="img/headers/sm/4.png" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="pmbb-view" data-ng-if="pctrl.editInfo === 0">
+
+                    <dl class="dl-horizontal">
+                        <dt>Name</dt>
+                        <dd>{{ pctrl.fullName }}</dd>
+                    </dl>
+                    <dl class="dl-horizontal">
+                        <dt>Twitter</dt>
+                        <dd>{{ pctrl.gender }}</dd>
+                    </dl>
+                    <dl class="dl-horizontal">
+                        <dt>Mastodon</dt>
+                        <dd>{{ pctrl.birthDay }}</dd>
+                    </dl>
+        
+                    <div class="dl-horizontal">
+                        <dt>Summary</dt>
+                        <dd>{{ pctrl.profileSummary }}
+                            <br>
+                        </dd>
+                    </div>
+                </div>
+
+            <div class="clearfix"></div>
+
+            <ul class="tvb-stats">
+                <li class="tvbs-likes"><i class="zmdi zmdi-thumb-up"></i> 34K <span class="hidden-xs">Endorsed</span></li>
+            </ul>
+
+        </div>
+    </div>
+
+</div>

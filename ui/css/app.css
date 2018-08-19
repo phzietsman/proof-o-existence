@@ -8386,7 +8386,6 @@ h6 small,
 }
 .logo a {
   color: #fff;
-  text-transform: uppercase;
   display: block;
   font-size: 16px;
 }
@@ -8536,7 +8535,6 @@ h6 small,
   position: absolute;
   width: 100%;
   height: calc(100% - 70px);
-  background: url(../img/notifications.png) no-repeat center;
   -webkit-transition: all;
   -o-transition: all;
   transition: all;

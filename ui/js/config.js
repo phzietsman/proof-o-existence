@@ -31,10 +31,10 @@ angular.module('POEApp')
                 templateUrl: 'views/__profile-about.html'
             })
 
-            .state('profile.profile-timeline', {
+            .state('profile.profile-claims', {
                 authed: true,
-                url: '/timeline',
-                templateUrl: 'views/__profile-timeline.html',
+                url: '/claims',
+                templateUrl: 'views/__profile-claims.html',
                 resolve: {
                     loadPlugin: function ($ocLazyLoad) {
                         return $ocLazyLoad.load([

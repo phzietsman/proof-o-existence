@@ -26,11 +26,11 @@ Note, the tests are making use of the async await notation. Ensure your node evi
 
 
 ## Features
-1. register a new address (Contract Only)
+1. register a new address (Contract Only + UI)
 1. update an address bio (Contract Only)
 1. ~~Create a claim~~
 
-
+grunt copy:abi
 
 browserify js/factories/ipfs.factory.pre.js -o js/factories/ipfs.factory.js
 
