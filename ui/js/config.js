@@ -1,45 +1,46 @@
 angular.module('materialAdmin')
-.config(function ($stateProvider, $urlRouterProvider){
-        $urlRouterProvider.otherwise("/signup");
+    .config(function ($stateProvider, $urlRouterProvider) {
+        $urlRouterProvider.otherwise("/login");
 
 
         $stateProvider
-        
-            .state ('signup', {
+
+            .state('signup', {
                 url: '/signup',
                 templateUrl: 'views/__signup.html',
-                requiresAuth: false
+                authed: false,
+                controller : 'accessController as accessCtrl'
             })
 
-            .state ('web3jsMissing', {
+            .state('web3jsMissing', {
                 url: '/web3jsMissing',
                 templateUrl: 'views/__web3js.html',
-                requiresAuth: false
+                authed: false
             })
-        
-            
+
+
             //------------------------------
             // PAGES
             //------------------------------        
-            .state ('profile', {
-                requiresAuth: true,
+            .state('profile', {
+                authed: true,
                 url: '/profile',
                 templateUrl: 'views/__profile.html'
             })
 
-            .state ('profile.profile-about', {
-                requiresAuth: true,
+            .state('profile.profile-about', {
+                authed: true,
                 url: '/about',
                 templateUrl: 'views/__profile-about.html'
             })
-        
-            .state ('profile.profile-timeline', {
-                requiresAuth: true,
+
+            .state('profile.profile-timeline', {
+                authed: true,
                 url: '/timeline',
                 templateUrl: 'views/__profile-timeline.html',
                 resolve: {
-                    loadPlugin: function($ocLazyLoad) {
-                        return $ocLazyLoad.load ([
+                    loadPlugin: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load([
                             {
                                 name: 'css',
                                 insertBefore: '#app-level',
@@ -57,9 +58,9 @@ angular.module('materialAdmin')
                     }
                 }
             })
-        
-            .state ('profile.profile-connections', {
-                requiresAuth: true,
+
+            .state('profile.profile-connections', {
+                authed: true,
                 url: '/connections',
                 templateUrl: 'views/__profile-connections.html'
             });

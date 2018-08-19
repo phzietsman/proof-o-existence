@@ -1,22 +1,22 @@
 angular.module('materialAdmin')
-.controller('materialadminCtrl', function(web3jsFactory, $state, growlService){
+    .controller('materialadminCtrl', function (web3jsFactory, $state, growlService) {
         //Welcome Message
-        growlService.growl('Welcome back Mallinda!', 'inverse')
-        
-        
+        growlService.growl('Already a user? Login ^^^', 'inverse')
+
+
         // Detact Mobile Browser
-        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-           angular.element('html').addClass('ismobile');
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            angular.element('html').addClass('ismobile');
         }
 
         // By default template has a boxed layout
         this.layoutType = localStorage.getItem('ma-layout-status');
-        
+
         // For Mainmenu Active Class
-        this.$state = $state;    
-        
+        this.$state = $state;
+
         //Close sidebar on click
-        this.sidebarStat = function(event) {
+        this.sidebarStat = function (event) {
             if (!angular.element(event.target).parent().hasClass('active')) {
                 this.sidebarToggle.left = false;
             }
@@ -25,26 +25,26 @@ angular.module('materialAdmin')
         // Skin Switch
         // 'lightblue' 'bluegray' 'cyan' 'teal' 'green' 'orange' 'blue' 'purple'
         this.currentSkin = 'bluegray';
-   
+
     })
 
 
     // =========================================================================
     // Header
     // =========================================================================
-    .controller('headerCtrl', function($timeout, messageService){
+    .controller('headerCtrl', function ($timeout, messageService) {
 
 
         // Top Search
-        this.openSearch = function(){
+        this.openSearch = function () {
             angular.element('#header').addClass('search-toggled');
             angular.element('#top-search-wrap').find('input').focus();
         }
 
-        this.closeSearch = function(){
+        this.closeSearch = function () {
             angular.element('#header').removeClass('search-toggled');
         }
-        
+
         // Get messages and notification for header
         this.img = messageService.img;
         this.user = messageService.user;
@@ -54,33 +54,33 @@ angular.module('materialAdmin')
 
 
         //Clear Notification
-        this.clearNotification = function($event) {
+        this.clearNotification = function ($event) {
             $event.preventDefault();
-            
+
             var x = angular.element($event.target).closest('.listview');
             var y = x.find('.lv-item');
             var z = y.size();
-            
+
             angular.element($event.target).parent().fadeOut();
-            
+
             x.find('.list-group').prepend('<i class="grid-loading hide-it"></i>');
             x.find('.grid-loading').fadeIn(1500);
             var w = 0;
-            
-            y.each(function(){
+
+            y.each(function () {
                 var z = $(this);
-                $timeout(function(){
-                    z.addClass('animated fadeOutRightBig').delay(1000).queue(function(){
+                $timeout(function () {
+                    z.addClass('animated fadeOutRightBig').delay(1000).queue(function () {
                         z.remove();
                     });
-                }, w+=150);
+                }, w += 150);
             })
-            
-            $timeout(function(){
+
+            $timeout(function () {
                 angular.element('#notifications').addClass('empty');
-            }, (z*150)+200);
+            }, (z * 150) + 200);
         }
-            
+
     })
 
 
@@ -88,13 +88,13 @@ angular.module('materialAdmin')
     // Profile
     //=================================================
 
-    .controller('profileCtrl', function(growlService){
-        
+    .controller('profileCtrl', function (growlService) {
+
         //Get Profile Information from profileService Service
-        
+
         //User
         this.profileSummary = "Sed eu est vulputate, fringilla ligula ac, maximus arcu. Donec sed felis vel magna mattis ornare ut non turpis. Sed id arcu elit. Sed nec sagittis tortor. Mauris ante urna, ornare sit amet mollis eu, aliquet ac ligula. Nullam dolor metus, suscipit ac imperdiet nec, consectetur sed ex. Sed cursus porttitor leo.";
-    
+
         this.fullName = "Mallinda Hollaway";
         this.gender = "female";
         this.birthDay = "23/06/1988";
@@ -112,22 +112,22 @@ angular.module('materialAdmin')
         this.editSummary = 0;
         this.editInfo = 0;
         this.editContact = 0;
-    
-        
-        this.submit = function(item, message) {            
-            if(item === 'profileSummary') {
+
+
+        this.submit = function (item, message) {
+            if (item === 'profileSummary') {
                 this.editSummary = 0;
             }
-            
-            if(item === 'profileInfo') {
+
+            if (item === 'profileInfo') {
                 this.editInfo = 0;
             }
-            
-            if(item === 'profileContact') {
+
+            if (item === 'profileContact') {
                 this.editContact = 0;
             }
-            
-            growlService.growl(message+' has updated Successfully!', 'inverse'); 
+
+            growlService.growl(message + ' has updated Successfully!', 'inverse');
         }
 
     })
@@ -138,10 +138,10 @@ angular.module('materialAdmin')
     // LOGIN
     //=================================================
 
-    .controller('loginCtrl', function(){
-        
+    .controller('accessController', function () {
+
         //Status
-    
+
         this.login = 1;
         this.register = 0;
         this.forgot = 0;
@@ -152,8 +152,8 @@ angular.module('materialAdmin')
     // COMMON FORMS
     // =========================================================================
 
-    .controller('formCtrl', function(){
-    
+    .controller('formCtrl', function () {
+
         //Input Slider
         this.nouisliderValue = 4;
         this.nouisliderFrom = 25;
@@ -163,7 +163,7 @@ angular.module('materialAdmin')
         this.nouisliderCyan = 20;
         this.nouisliderAmber = 60;
         this.nouisliderGreen = 75;
-    
+
         //Color Picker
         this.color = '#03A9F4';
         this.color2 = '#8BC34A';

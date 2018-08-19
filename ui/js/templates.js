@@ -11,6 +11,11 @@ angular.module('materialAdmin').run(['$templateCache', function($templateCache) 
   );
 
 
+  $templateCache.put('template/header_trimmed.html',
+    "<ul class=\"header-inner clearfix\"><li class=\"logo hidden-xs\"><a>Proof-O-Existence</a></li><li class=\"pull-right\"><ul class=\"top-menu\"><li><a href=\"\"><i class=\"tm-icon zmdi zmdi-account-o\"></i></a></li></ul></li></ul>"
+  );
+
+
   $templateCache.put('template/profile-menu.html',
     "<li class=\"btn-wave\" data-ui-sref-active=\"active\"><a data-ui-sref=\"profile.profile-about\">About</a></li><li class=\"btn-wave\" data-ui-sref-active=\"active\"><a data-ui-sref=\"profile.profile-timeline\">Timeline</a></li><li class=\"btn-wave\" data-ui-sref-active=\"active\"><a data-ui-sref=\"profile.profile-connections\">Connections</a></li>"
   );

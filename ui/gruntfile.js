@@ -37,13 +37,13 @@ module.exports = function(grunt) {
           }
         },
         watch: {
-            a: {
-                files: ['less/**/*.less'], // which files to watch
-                tasks: ['less', 'csssplit'],
-                options: {
-                    nospawn: true
-                }
-            },
+            // a: {
+            //     files: ['less/**/*.less'], // which files to watch
+            //     tasks: ['less', 'csssplit'],
+            //     options: {
+            //         nospawn: true
+            //     }
+            // },
             b: {
                 files: ['template/**/*.html'], // which files to watch
                 tasks: ['ngtemplates'],
