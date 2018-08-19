@@ -1,22 +1,27 @@
 angular.module('POEApp')
 .controller('accessController', accessController) 
 
-accessController.$inject = ['$timeout', 'growlService', 'usersFactory'];
+accessController.$inject = ['$timeout', 'growlService', 'usersFactory', 'ipfsFactory'];
 
-function accessController ($timeout, growlService, usersFactory) {
+function accessController ($timeout, growlService, usersFactory, ipfsFactory) {
 
   var accessCtrl = this;
  
   accessCtrl.coinbase = null;
+  accessCtrl.name = null;
+  accessCtrl.twitter  = null;
+  accessCtrl.mastodon  = null;
 
-  accessCtrl.test = __test;
+  accessCtrl.ipfs = null;
+
+  accessCtrl.signup = __signup;
   accessCtrl.login = __login;
 
 
 
 
-  function __test() {
-    console.log("Bindedn");
+  function __signup() {
+    ipfsFactory.getFile("");
   }
 
   function __login() {
@@ -35,7 +40,7 @@ function accessController ($timeout, growlService, usersFactory) {
     });
   }
    
-  
+
   
   $timeout(init, 100);
   function init() {

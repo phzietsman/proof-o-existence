@@ -18,10 +18,7 @@ angular.module('POEApp')
                 authed: false
             })
 
-
-            //------------------------------
-            // PAGES
-            //------------------------------        
+      
             .state('profile', {
                 authed: true,
                 url: '/profile',
