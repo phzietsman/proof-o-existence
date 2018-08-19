@@ -132,27 +132,6 @@ angular.module('POEApp')
 
     })
 
-    // =========================================================================
-    // COMMON FORMS
-    // =========================================================================
 
-    .controller('formCtrl', function () {
-
-        //Input Slider
-        this.nouisliderValue = 4;
-        this.nouisliderFrom = 25;
-        this.nouisliderTo = 80;
-        this.nouisliderRed = 35;
-        this.nouisliderBlue = 90;
-        this.nouisliderCyan = 20;
-        this.nouisliderAmber = 60;
-        this.nouisliderGreen = 75;
-
-        //Color Picker
-        this.color = '#03A9F4';
-        this.color2 = '#8BC34A';
-        this.color3 = '#F44336';
-        this.color4 = '#FFC107';
-    })
 
 

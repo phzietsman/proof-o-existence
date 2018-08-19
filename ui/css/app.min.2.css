@@ -547,7 +547,7 @@ body.login-content:before {
 
 @media (min-width: 768px) {
   #profile-main .pmo-pic .pmo-stat {
-    background: #FFC107;
+    background: #4CAF50;
     padding-bottom: 15px;
   }
 }
@@ -2291,16 +2291,16 @@ body.login-content:before {
 }
 
 [data-current-skin="bluegray"] {
-  background-color: #607D8B;
+  background-color: #2d2e30;
 }
 
 [data-current-skin="bluegray"] .ss-icon {
-  color: #607D8B;
+  color: #2d2e30;
 }
 
 @media (max-width: 767px) {
   [data-current-skin="bluegray"] .ha-menu {
-    background: #607D8B;
+    background: #2d2e30;
   }
 }
 
@@ -2463,7 +2463,7 @@ body.login-content:before {
 }
 
 .preloader.pls-bluegray .plc-path {
-  stroke: #607D8B;
+  stroke: #2d2e30;
 }
 
 .preloader.pls-amber .plc-path {

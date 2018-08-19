@@ -8189,10 +8189,10 @@ a.waves-effect .waves-ripple {
   color: #9E9E9E !important;
 }
 .bgm-bluegray {
-  background-color: #607D8B !important;
+  background-color: #2d2e30 !important;
 }
 .c-bluegray {
-  color: #607D8B !important;
+  color: #2d2e30 !important;
 }
 .bgm-indigo {
   background-color: #3F51B5 !important;
@@ -12217,7 +12217,7 @@ a.thumbnail.active {
   background: #FF9800;
 }
 .modal[data-modal-color="bluegray"] .modal-content {
-  background: #607D8B;
+  background: #2d2e30;
 }
 .modal[data-modal-color="red"] .modal-content {
   background: #F44336;
@@ -12567,31 +12567,31 @@ a.thumbnail.active {
   border-bottom-color: #795548;
 }
 .tooltip-bluegray .tooltip-inner {
-  background-color: #607D8B;
+  background-color: #2d2e30;
 }
 .tooltip-bluegray.top .tooltip-arrow {
-  border-top-color: #607D8B;
+  border-top-color: #2d2e30;
 }
 .tooltip-bluegray.top-left .tooltip-arrow {
-  border-top-color: #607D8B;
+  border-top-color: #2d2e30;
 }
 .tooltip-bluegray.top-right .tooltip-arrow {
-  border-top-color: #607D8B;
+  border-top-color: #2d2e30;
 }
 .tooltip-bluegray.right .tooltip-arrow {
-  border-right-color: #607D8B;
+  border-right-color: #2d2e30;
 }
 .tooltip-bluegray.left .tooltip-arrow {
-  border-left-color: #607D8B;
+  border-left-color: #2d2e30;
 }
 .tooltip-bluegray.bottom .tooltip-arrow {
-  border-bottom-color: #607D8B;
+  border-bottom-color: #2d2e30;
 }
 .tooltip-bluegray.bottom-left .tooltip-arrow {
-  border-bottom-color: #607D8B;
+  border-bottom-color: #2d2e30;
 }
 .tooltip-bluegray.bottom-right .tooltip-arrow {
-  border-bottom-color: #607D8B;
+  border-bottom-color: #2d2e30;
 }
 .tooltip-black .tooltip-inner {
   background-color: #000000;
@@ -13120,7 +13120,7 @@ body.login-content:before {
 }
 @media (min-width: 768px) {
   #profile-main .pmo-pic .pmo-stat {
-    background: #FFC107;
+    background: #4CAF50;
     padding-bottom: 15px;
   }
 }
@@ -14586,14 +14586,14 @@ body.login-content:before {
   }
 }
 [data-current-skin="bluegray"] {
-  background-color: #607D8B;
+  background-color: #2d2e30;
 }
 [data-current-skin="bluegray"] .ss-icon {
-  color: #607D8B;
+  color: #2d2e30;
 }
 @media (max-width: 767px) {
   [data-current-skin="bluegray"] .ha-menu {
-    background: #607D8B;
+    background: #2d2e30;
   }
 }
 [data-current-skin="blue"] {
@@ -14720,7 +14720,7 @@ body.login-content:before {
   stroke: #FFEB3B;
 }
 .preloader.pls-bluegray .plc-path {
-  stroke: #607D8B;
+  stroke: #2d2e30;
 }
 .preloader.pls-amber .plc-path {
   stroke: #FFC107;
