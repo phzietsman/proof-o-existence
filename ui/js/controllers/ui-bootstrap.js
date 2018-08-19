@@ -1,10 +1,5 @@
-materialAdmin
-
-    //====================================
-    // ALERT
-    //====================================
-
-    .controller('AlertDemoCtrl', function ($scope) {
+angular.module('materialAdmin')
+.controller('AlertDemoCtrl', function ($scope) {
         $scope.alerts = [
             { type: 'info', msg: "Well done! You successfully read this important alert message." },
             { type: 'success', msg: "Well done! You successfully read this important alert message." },

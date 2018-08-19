@@ -1,40 +1,41 @@
-materialAdmin
-    .config(function ($stateProvider, $urlRouterProvider){
-        $urlRouterProvider.otherwise("/home");
+angular.module('materialAdmin')
+.config(function ($stateProvider, $urlRouterProvider){
+        $urlRouterProvider.otherwise("/signup");
 
 
         $stateProvider
         
             .state ('signup', {
                 url: '/signup',
-                templateUrl: 'views/__signup.html'
+                templateUrl: 'views/__signup.html',
+                requiresAuth: false
+            })
+
+            .state ('web3jsMissing', {
+                url: '/web3jsMissing',
+                templateUrl: 'views/__web3js.html',
+                requiresAuth: false
             })
         
             
             //------------------------------
             // PAGES
-            //------------------------------
-            
-            .state ('pages', {
-                url: '/pages',
-                templateUrl: 'views/__common.html'
-            })
-            
-        
-            //Profile
-        
-            .state ('pages.profile', {
+            //------------------------------        
+            .state ('profile', {
+                requiresAuth: true,
                 url: '/profile',
                 templateUrl: 'views/__profile.html'
             })
 
-            .state ('pages.profile.profile-about', {
-                url: '/profile-about',
+            .state ('profile.profile-about', {
+                requiresAuth: true,
+                url: '/about',
                 templateUrl: 'views/__profile-about.html'
             })
         
-            .state ('pages.profile.profile-timeline', {
-                url: '/profile-timeline',
+            .state ('profile.profile-timeline', {
+                requiresAuth: true,
+                url: '/timeline',
                 templateUrl: 'views/__profile-timeline.html',
                 resolve: {
                     loadPlugin: function($ocLazyLoad) {
@@ -57,8 +58,9 @@ materialAdmin
                 }
             })
         
-            .state ('pages.profile.profile-connections', {
-                url: '/profile-connections',
+            .state ('profile.profile-connections', {
+                requiresAuth: true,
+                url: '/connections',
                 templateUrl: 'views/__profile-connections.html'
             });
     });

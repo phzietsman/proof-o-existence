@@ -50,10 +50,10 @@ contract ProofOfExistence is ProofOfExistenceEvents, ProofOfExistenceStructs, Ow
   function getBio (address _address)
   public
   view
-  returns (string name, string ipfs)
+  returns (string name, string ipfs, uint index)
   {
     Bio memory thisBio = addressBio[_address];
-    return (thisBio.name, thisBio.ipfs);
+    return (thisBio.name, thisBio.ipfs, thisBio.index);
   }
 
   function getRegisteredAddress (uint256 _index)
@@ -78,7 +78,11 @@ contract ProofOfExistence is ProofOfExistenceEvents, ProofOfExistenceStructs, Ow
   returns (uint addressIndex)
   {
     addressIndex = registeredAddresses.push(msg.sender) - 1;
-    addressBio[msg.sender] = Bio(_name, _ipfs, addressIndex);
+    // addressBio[msg.sender] = Bio(_name, _ipfs, addressIndex);
+    addressBio[msg.sender].name = _name;
+    addressBio[msg.sender].ipfs = _ipfs;
+    addressBio[msg.sender].index = addressIndex;
+
     emit NewAddressRegistered(msg.sender);
   }
 

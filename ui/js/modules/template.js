@@ -1,4 +1,4 @@
-materialAdmin
+angular.module('materialAdmin')
 
     // =========================================================================
     // LAYOUT

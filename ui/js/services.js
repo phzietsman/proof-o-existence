@@ -1,9 +1,4 @@
-materialAdmin
-
-    // =========================================================================
-    // Header Messages and Notifications list Data
-    // =========================================================================
-
+angular.module('materialAdmin')
     .service('messageService', ['$resource', function($resource){
         this.getMessage = function(img, user, text) {
             var gmList = $resource("data/messages-notifications.json");
