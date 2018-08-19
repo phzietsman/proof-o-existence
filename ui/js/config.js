@@ -1,6 +1,6 @@
 angular.module('POEApp')
     .config(function ($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise("/login");
+        $urlRouterProvider.otherwise("/signup");
 
 
         $stateProvider

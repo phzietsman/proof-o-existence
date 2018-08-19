@@ -32,6 +32,10 @@ Note, the tests are making use of the async await notation. Ensure your node evi
 
 
 
+browserify js/factories/ipfs.factory.pre.js -o js/factories/ipfs.factory.js
+
+@phzietsman@mastodon.social
+
 
 Features:
 Upload picture

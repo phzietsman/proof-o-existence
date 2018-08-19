@@ -12,5 +12,8 @@
     "grunt-contrib-watch": "1.1.0",
     "grunt-csssplit": "0.4.0",
     "ng-if-bootstrap-grid": "0.1.0"
+  },
+  "dependencies": {
+    "buffer": "5.2.0"
   }
 }

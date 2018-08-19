@@ -24,6 +24,7 @@ function usersFactory($rootScope, $state, $http, $q, web3jsFactory) {
         q.reject("Login:NotRegistered");
       } else {
         q.resolve();
+        me.authed = true;
         $state.go("profile.profile-about")
       }
 

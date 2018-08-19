@@ -106,6 +106,23 @@ function web3jsFactory($rootScope, $http, $q) {
     return q.promise;
   }
 
+  function Register(name, ipfs) {
+
+    const q = $q.defer();
+
+    __web3.contract.registerAddress(name, ipfs, undefined, undefined, (err, data) => {
+
+      if (err) {
+        console.log('GetBio error', err.message);
+        q.reject(err);
+      }
+
+      q.resolve(data);
+    });
+
+    return q.promise;
+  }
+
   
 
   return {
@@ -115,6 +132,7 @@ function web3jsFactory($rootScope, $http, $q) {
     getBalance: GetBalance,
     loadContract: LoadContract,
     // Contract Methods
-    getBio: GetBio
+    getBio: GetBio,
+    register: Register
   };
 }
