@@ -4,5 +4,7 @@ build/
 
 # Ignore UI build artifacts
 ui/node_modules/
-ui/js/templates\.js
-ui/js/ProofOfExistence\.json
+
+# Need these to serve from github.io
+# ui/js/templates\.js
+# ui/js/ProofOfExistence\.json
