@@ -1,0 +1,24 @@
+language: node_js
+sudo: required
+node_js:
+- '8.11.3'
+env:
+  matrix:
+  - CXX=g++-4.8
+  global:
+    secure: b3mLhQKYqyhYiIdkuBGenw0eqdx0eECMUjoI2uw1kwfXsAf31XAW+aRRsaTxcVqmnePFK14234QaSCjc+tMA5Ed2PQcifSeinnUShcm+Ch1dkpouzvXzijEFYmzG/jxQxBkxSG6RR5BHlYmwdmwkyNDapry22nhcg1hKfV5AwyYVmXn3yU1a2+rb284NKGEHtkEdgXr5rvsF1I/NgIcZ6H6ThplvBRFL+TfTAhXHVIsNly5s7yxzmTQefIY4NKWJrssLxerzQbN2ArG/A4mgSmcPePMuCVO3Ls2l7XLMKSizkZZaHXwgogSu1eDLDtvr5v3eoWJhMLCw5Q0Zp/0pPZsRPFQ8bAag+H3bc5mtU2m+g+G9IjTThdlXXbRvV8z/G4uWm7r7FSVDVFqvtSm7Sr3ACaW0/ZAvTdYxlhxFXoP2+ZK+Q+oa4aNx3K7hZFNOZMwXQccowlM103+ZG1lLM+1a6h+A5OjWw0KTuuxn9D61MvWvQSIU7d0UiLoZqShD4NCZLeBL7Q3o1UA6T78gkPzDMRw2jdBUUw5hs4vodgmMSmHAHKHc8kmq/fxCMmstSVaZfmhPSDbyxx0p7M7ZERKqQMO1M+yYNIhxu+3dHJzG4iGQBitd4tuH/zXRKx/Ak/C6wICpmP8488rlWyyuUIvqPK47zZAoFxExoqYegf4=
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - build-essential
+    - g++-4.8
+before_install:
+- export CXX="g++-4.8"
+- npm install -g npm@latest
+- npm install -g truffle
+install:
+- npm install
+script:
+- truffle test --network develop

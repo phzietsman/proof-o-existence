@@ -1,4 +1,5 @@
 # proof-o-existence
+[![Build Status](https://travis-ci.org/phzietsman/proof-o-existence.svg?branch=master)](https://travis-ci.org/phzietsman/proof-o-existence)
 
 ## Tooling Requirements
 To replicate this environemnt:
