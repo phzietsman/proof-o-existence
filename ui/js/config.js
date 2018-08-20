@@ -22,7 +22,8 @@ angular.module('POEApp')
             .state('profile', {
                 authed: true,
                 url: '/profile',
-                templateUrl: 'views/__profile.html'
+                templateUrl: 'views/__profile.html',
+                controller: 'profileController as profileCtrl'                
             })
 
             .state('profile.profile-about', {
@@ -34,31 +35,13 @@ angular.module('POEApp')
             .state('profile.profile-claims', {
                 authed: true,
                 url: '/claims',
-                templateUrl: 'views/__profile-claims.html',
-                resolve: {
-                    loadPlugin: function ($ocLazyLoad) {
-                        return $ocLazyLoad.load([
-                            {
-                                name: 'css',
-                                insertBefore: '#app-level',
-                                files: [
-                                    'vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css'
-                                ]
-                            },
-                            {
-                                name: 'vendors',
-                                files: [
-                                    'vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js'
-                                ]
-                            }
-                        ])
-                    }
-                }
+                templateUrl: 'views/__profile-claims.html'
             })
 
-            .state('profile.profile-connections', {
+            .state('profile.profile-all-claims', {
                 authed: true,
-                url: '/connections',
-                templateUrl: 'views/__profile-connections.html'
+                url: '/all-claims',
+                templateUrl: 'views/__profile-all-claims.html',
+
             });
     });
