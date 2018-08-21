@@ -3,7 +3,7 @@
         <h2>
             <i class="zmdi zmdi-person m-r-5"></i> Basic Information</h2>
 
-        <ul class="actions" data-ng-if="pctrl.editInfo === 0">
+        <ul class="actions" data-ng-if="profileCtrl.editInfo === 0">
             <li class="dropdown" uib-dropdown>
                 <a href="" uib-dropdown-toggle>
                     <i class="zmdi zmdi-more-vert"></i>
@@ -11,7 +11,7 @@
 
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li>
-                        <a data-ng-click="pctrl.editInfo = 1" href="">Edit</a>
+                        <a data-ng-click="profileCtrl.editInfo = 1" href="">Edit</a>
                     </li>
                 </ul>
             </li>
@@ -20,40 +20,40 @@
 
     <div class="pmbb-body p-l-30">
 
-        <div class="pmbb-view" data-ng-if="pctrl.editInfo === 0">
+        <div class="pmbb-view" data-ng-if="profileCtrl.editInfo === 0">
 
             <dl class="dl-horizontal">
                 <dt>Name</dt>
-                <dd>Paul</dd>
+                <dd>{{profileCtrl.me.name}}</dd>
             </dl>
             <dl class="dl-horizontal">
                 <dt>Twitter</dt>
-                <dd>@phzietsman</dd>
+                <dd>{{profileCtrl.me.twitter}}</dd>
             </dl>
             <dl class="dl-horizontal">
                 <dt>Mastodon</dt>
-                <dd>@phzietsman@mastodon.social</dd>
+                <dd>{{profileCtrl.me.mastodon}}</dd>
             </dl>
 
             <dl class="dl-horizontal">
                     <dt>IPFS Link</dt>
-                    <dd><a href="https://ipfs.infura.io/ipfs/Qmaisz6NMhDB51cCvNWa1GMS7LU1pAxdF4Ld6Ft9kZEP2a">Qmaisz6NMhDB51cCvNWa1GMS7LU1pAxdF4Ld6Ft9kZEP2a</a></dd>
+                    <dd><a href="https://ipfs.infura.io/ipfs/{{profileCtrl.me.bioIpfs}}">{{profileCtrl.me.bioIpfs}}</a></dd>
                 </dl>
 
             <div class="dl-horizontal">
                 <dt>Summary</dt>
-                <dd>{{ pctrl.profileSummary }}
+                <dd>{{ profileCtrl.profileSummary }}
                     <br>
                 </dd>
             </div>
         </div>
 
-        <form data-ng-submit="pctrl.submit('profileInfo', 'Profile Information')" class="pmbb-edit" data-ng-if="pctrl.editInfo === 1">
+        <form data-ng-submit="profileCtrl.submit('profileInfo', 'Profile Information')" class="pmbb-edit" data-ng-if="profileCtrl.editInfo === 1">
             <dl class="dl-horizontal">
                 <dt class="p-t-10">Name</dt>
                 <dd>
                     <div class="fg-line">
-                        <input data-ng-model="pctrl.fullName" type="text" class="form-control" value="{{ pctrl.fullName }}" placeholder="eg. Mallinda Hollaway">
+                        <input data-ng-model="profileCtrl.fullName" type="text" class="form-control" value="{{ profileCtrl.fullName }}" placeholder="eg. Mallinda Hollaway">
                     </div>
 
                 </dd>
@@ -62,7 +62,7 @@
                 <dt class="p-t-10">Twitter</dt>
                 <dd>
                     <div class="fg-line">
-                        <input data-ng-model="pctrl.fullName" type="text" class="form-control" value="{{ pctrl.fullName }}" placeholder="eg. Mallinda Hollaway">
+                        <input data-ng-model="profileCtrl.fullName" type="text" class="form-control" value="{{ profileCtrl.fullName }}" placeholder="eg. Mallinda Hollaway">
                     </div>
                 </dd>
             </dl>
@@ -71,7 +71,7 @@
                 <dt class="p-t-10">Mastodon</dt>
                 <dd>
                     <div class="fg-line">
-                        <input data-ng-model="pctrl.fullName" type="text" class="form-control" value="{{ pctrl.fullName }}" placeholder="eg. Mallinda Hollaway">
+                        <input data-ng-model="profileCtrl.fullName" type="text" class="form-control" value="{{ profileCtrl.fullName }}" placeholder="eg. Mallinda Hollaway">
                     </div>
                 </dd>
             </dl>

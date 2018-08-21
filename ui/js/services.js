@@ -1,16 +1,5 @@
 angular.module('POEApp')
-    .service('messageService', ['$resource', function($resource){
-        this.getMessage = function(img, user, text) {
-            var gmList = $resource("data/messages-notifications.json");
-            
-            return gmList.get({
-                img: img,
-                user: user,
-                text: text
-            });
-        }
-    }])
-    
+   
 
     // =========================================================================
     // Best Selling Widget Data (Home Page)
@@ -60,23 +49,7 @@ angular.module('POEApp')
         }
     }])
 
-
-    // =========================================================================
-    // Recent Posts Widget Data
-    // =========================================================================
-    
-    .service('recentpostService', ['$resource', function($resource){
-        this.getRecentpost = function(img, user, text) {
-            var recentpostList = $resource("data/messages-notifications.json");
-            
-            return recentpostList.get ({
-                img: img,
-                user: user,
-                text: text
-            })
-        }
-    }])
-    
+   
     // =========================================================================
     // Data Table
     // =========================================================================

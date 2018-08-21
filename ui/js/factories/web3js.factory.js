@@ -128,6 +128,7 @@ function web3jsFactory($rootScope, $http, $q) {
   return {
     web3js: __web3,
     initializeWeb3js: InitializeWeb3js,
+    // web3 functions
     getCoinbase: GetCoinbase,
     getBalance: GetBalance,
     loadContract: LoadContract,

@@ -41,10 +41,11 @@ contract ProofOfExistence is ProofOfExistenceEvents, ProofOfExistenceStructs, Ow
   function getClaim (address _address, uint256 _index)
   public
   view
-  returns (string name, string description, string ipfs, uint blockNumber)
+  returns (string bioName, string bioIpfs, string claimName, string claimDescription, string claimIpfs, uint claimBlockNumber)
   {
     Claim memory thisClaim = addressClaimIndex[_address][_index];
-    return (thisClaim.name, thisClaim.description, thisClaim.ipfs, thisClaim.blockNumber);
+    Bio memory thisBio = addressBio[_address];
+    return (thisBio.name, thisBio.ipfs, thisClaim.name, thisClaim.description, thisClaim.ipfs, thisClaim.blockNumber);
   }
 
   function getBio (address _address)

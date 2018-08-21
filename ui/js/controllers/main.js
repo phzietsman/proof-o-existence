@@ -32,7 +32,7 @@ angular.module('POEApp')
     // =========================================================================
     // Header
     // =========================================================================
-    .controller('headerCtrl', function ($timeout, messageService) {
+    .controller('headerCtrl', function ($timeout) {
 
 
         // Top Search
@@ -45,41 +45,6 @@ angular.module('POEApp')
             angular.element('#header').removeClass('search-toggled');
         }
 
-        // Get messages and notification for header
-        this.img = messageService.img;
-        this.user = messageService.user;
-        this.user = messageService.text;
-
-        this.messageResult = messageService.getMessage(this.img, this.user, this.text);
-
-
-        //Clear Notification
-        this.clearNotification = function ($event) {
-            $event.preventDefault();
-
-            var x = angular.element($event.target).closest('.listview');
-            var y = x.find('.lv-item');
-            var z = y.size();
-
-            angular.element($event.target).parent().fadeOut();
-
-            x.find('.list-group').prepend('<i class="grid-loading hide-it"></i>');
-            x.find('.grid-loading').fadeIn(1500);
-            var w = 0;
-
-            y.each(function () {
-                var z = $(this);
-                $timeout(function () {
-                    z.addClass('animated fadeOutRightBig').delay(1000).queue(function () {
-                        z.remove();
-                    });
-                }, w += 150);
-            })
-
-            $timeout(function () {
-                angular.element('#notifications').addClass('empty');
-            }, (z * 150) + 200);
-        }
 
     })
 

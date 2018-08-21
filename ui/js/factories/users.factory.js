@@ -8,10 +8,8 @@ function usersFactory($rootScope, $state, $http, $q, web3jsFactory) {
   var me = {
     authed: false,
     coinbase: null,
-    balance:0
+    ipfs: null
   }
-
-  var users = [];
 
   function Login() {
 
@@ -25,6 +23,7 @@ function usersFactory($rootScope, $state, $http, $q, web3jsFactory) {
       } else {
         q.resolve();
         me.authed = true;
+        me.ipfs = bio.ipfs;
         $state.go("profile.profile-about")
       }
 
@@ -53,10 +52,7 @@ function usersFactory($rootScope, $state, $http, $q, web3jsFactory) {
 
   return {
     me: me,
-    users: users,
-
     setCoinbase: SetCoinbase,
-
     login: Login
   }
 }
