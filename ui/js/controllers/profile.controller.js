@@ -46,15 +46,15 @@ function profileController($uibModal, $timeout, growlService, usersFactory, ipfs
     modalInstance.result
     .then(function (claim) {
 
-      const claimModel = ipfsFactory.createClaimModel(claim.name, claim.descrption, claim.image);
+      const claimModel = ipfsFactory.createClaimModel(claim.name, claim.description, claim.image);
 
       ipfsFactory.addFile(profileCtrl.me.coinbase, JSON.stringify(claimModel))
         .then((path) => {
           return web3jsFactory.createClaim(claim.name, path);
         })
         .then((data) => {
-          // accessCtrl.hash = data;
-          // accessCtrl.busy = false;
+          console.log(`check this ${data.hash}`);
+          growlService.growl(`Whoop, transaction submitted (${data.hash})`, 'inverse');
         })
         .catch(() => {
           growlService.growl('Oops something went wrong! :(', 'inverse');
@@ -83,6 +83,20 @@ function profileController($uibModal, $timeout, growlService, usersFactory, ipfs
       profileCtrl.me.twitter = bio.social.twitter;
       profileCtrl.me.mastodon = bio.social.mastodon;
     });
+
+    web3jsFactory.getAllClaimsForAddress(usersFactory.me.coinbase)
+    .then((claims) => {
+      profileCtrl.myClaims = claims;
+      profileCtrl.myClaims.forEach( (claim) => {
+        ipfsFactory.getFile(claim.ipfs)
+        .then((data) => {
+          claim.pic = data.image.result
+          claim.description = data.description
+        });
+      });
+    });
+
+
   }
 
 
@@ -102,7 +116,7 @@ function modalInstanceController($uibModalInstance, coinbase) {
     $uibModalInstance.close({
       name: modalInstanceCtrl.name,
       description: modalInstanceCtrl.description,
-      image: modalInstanceCtrl.image
+      image: modalInstanceCtrl.image[0]
     });
   };
 

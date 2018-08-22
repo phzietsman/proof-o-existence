@@ -5,11 +5,11 @@
     </button>
 
 
-    <div class="t-view" data-tv-type="image">
+    <div class="t-view" data-tv-type="image" data-ng-repeat="claim in profileCtrl.myClaims">
         <div class="tv-header media">
             <div class="media-body p-t-5">
-                <strong class="d-block">My first MS paint picture</strong>
-                <small class="c-gray">included in block 5</small>
+                <strong class="d-block">{{claim.name}}</strong>
+                <small class="c-gray">included in block {{claim.block}}</small>
             </div>
 
         </div>
@@ -17,24 +17,24 @@
         <div class="tv-body">
 
             <div class="lightbox m-b-20">
-                <div data-src="img/claims/claim.png">
+                <div data-ng-src="{{claim.pic}}">
                     <div class="lightbox-item pull-left">
-                        <img src="img/claims/claim.png" alt="">
+                        <img data-ng-src="{{claim.pic}}" alt="">
                     </div>
                 </div>
             </div>
 
-            <div class="pmbb-view" data-ng-if="pctrl.editInfo === 0">
+            <div class="pmbb-view">
 
                 <dl class="dl-horizontal">
                     <dt>IPFS</dt>
-                    <dd><a href="https://ipfs.infura.io/ipfs/Qmaisz6NMhDB51cCvNWa1GMS7LU1pAxdF4Ld6Ft9kZEP2a">Qmaisz6NMhDB51cCvNWa1GMS7LU1pAxdF4Ld6Ft9kZEP2a</a></dd>
+                    <dd><a href="https://ipfs.infura.io/ipfs/{{claim.ipfs}}">{{claim.ipfs}}</a></dd>
                 </dl>
 
                 <div class="dl-horizontal">
                     <dt>Description</dt>
                     <dd>
-                        This is my first screenshot of MS Paint, I think its amazing!
+                            {{claim.description}}
                         <br>
                     </dd>
                 </div>
