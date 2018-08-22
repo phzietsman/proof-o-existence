@@ -12,21 +12,21 @@ contract ProofOfExistence is ProofOfExistenceEvents, ProofOfExistenceStructs, Ow
   // ================================================
   address[] private registeredAddresses;
 
-  mapping(address => Claim[]) private addressClaimIndex;
-  mapping(address => Bio) private addressBio;
+  mapping(address => IpfsObject[]) private addressClaim;
+  mapping(address => IpfsObject) private addressBio;
 
   // ================================================  
   // Modifiers
   // ================================================
   modifier onlyRegisteredAddresses() {
-    Bio memory thisAddressBio = addressBio[msg.sender];
-    require(thisAddressBio.index > 0, "AddresNotRegistered");
+    IpfsObject memory thisAddressBio = addressBio[msg.sender];
+    require(thisAddressBio.blockNumber > 0, "AddresNotRegistered");
     _;
   }
 
   modifier onlyNewAddresses() {
-    Bio memory thisAddressBio = addressBio[msg.sender];
-    require(thisAddressBio.index == 0, "AddresAlreadyRegistered");
+    IpfsObject memory thisAddressBio = addressBio[msg.sender];
+    require(thisAddressBio.blockNumber == 0, "AddresAlreadyRegistered");
     _;
   }
 
@@ -35,26 +35,42 @@ contract ProofOfExistence is ProofOfExistenceEvents, ProofOfExistenceStructs, Ow
     // at any index 0;
     address zeroAddress = 0x0;
     registeredAddresses.push(zeroAddress);
-    addressBio[zeroAddress] = Bio("ZeroAddress", "", 0);
+    addressBio[zeroAddress] = IpfsObject("ZeroAddress", "", 0);
   }
 
   function getClaim (address _address, uint256 _index)
   public
   view
-  returns (string bioName, string bioIpfs, string claimName, string claimDescription, string claimIpfs, uint claimBlockNumber)
+  returns (string claimName, string claimIpfs, uint claimBlockNumber)
   {
-    Claim memory thisClaim = addressClaimIndex[_address][_index];
-    Bio memory thisBio = addressBio[_address];
-    return (thisBio.name, thisBio.ipfs, thisClaim.name, thisClaim.description, thisClaim.ipfs, thisClaim.blockNumber);
+    IpfsObject memory thisClaim = addressClaim[_address][_index];
+    return (thisClaim.name, thisClaim.ipfs, thisClaim.blockNumber);
+  }
+
+  function createClaim (string name, string ipfs)
+  public
+  returns (uint claimBlockNumber)
+  {
+    IpfsObject memory newClaim = IpfsObject(name, ipfs, block.number);
+    addressClaim[msg.sender].push(newClaim);
+    return block.number;
+  }
+
+  function getClaimCount (address _address)
+  public
+  view
+  returns (uint)
+  {
+    return addressClaim[_address].length;   
   }
 
   function getBio (address _address)
   public
   view
-  returns (string name, string ipfs, uint index)
+  returns (string name, string ipfs, uint blockNumber)
   {
-    Bio memory thisBio = addressBio[_address];
-    return (thisBio.name, thisBio.ipfs, thisBio.index);
+    IpfsObject memory thisBio = addressBio[_address];
+    return (thisBio.name, thisBio.ipfs, thisBio.blockNumber);
   }
 
   function getRegisteredAddress (uint256 _index)
@@ -82,7 +98,7 @@ contract ProofOfExistence is ProofOfExistenceEvents, ProofOfExistenceStructs, Ow
     // addressBio[msg.sender] = Bio(_name, _ipfs, addressIndex);
     addressBio[msg.sender].name = _name;
     addressBio[msg.sender].ipfs = _ipfs;
-    addressBio[msg.sender].index = addressIndex;
+    addressBio[msg.sender].blockNumber = block.number;
 
     emit NewAddressRegistered(msg.sender);
   }
@@ -94,7 +110,8 @@ contract ProofOfExistence is ProofOfExistenceEvents, ProofOfExistenceStructs, Ow
   {
     addressBio[msg.sender].name = _name; 
     addressBio[msg.sender].ipfs = _ipfs; 
-    return addressBio[msg.sender].index;
+    addressBio[msg.sender].blockNumber = block.number;
+    return addressBio[msg.sender].blockNumber;
   }
 
 }

@@ -90,7 +90,7 @@ function web3jsFactory($rootScope, $http, $q) {
     __web3.contract.getBio(coinbase, undefined, undefined, (err, data) => {
 
       if (err) {
-        console.log('GetBio error', err.message);
+        console.error('GetBio error', err.message);
         q.reject(err);
       }
 
@@ -101,6 +101,68 @@ function web3jsFactory($rootScope, $http, $q) {
       }
 
       q.resolve(mapped);
+    });
+
+    return q.promise;
+  }
+
+  function GetClaimsCount(coinbase) {
+
+    const q = $q.defer();
+
+    __web3.contract.getClaimCount(coinbase, undefined, undefined, (err, data) => {
+
+      if (err) {
+        console.error('GetClaimsCount error', err.message);
+        q.resolve(0);
+      }
+
+      q.resolve(Number(data.valueOf()));
+    });
+
+    return q.promise;
+  }
+
+  function GetClaim(coinbase, index) {
+
+    const q = $q.defer();
+
+    __web3.contract.getClaim(coinbase, index, undefined, undefined, (err, data) => {
+
+      if (err) {
+        console.log('GetClaim error', err.message);
+        q.reject(err);
+      }
+
+      q.resolve({
+        owner: coinbase,
+        name:data.name,
+        ipfs:data.ipfs,
+        block: data.blockNumber,
+        type: "claim"
+      });
+
+    });
+
+    return q.promise;
+  }
+
+  function GetAllClaimsForAddress(coinbase) {
+    const q = $q.defer();
+
+    GetClaimsCount(coinbase)
+    .then( (count) => {
+
+      var promises = [];
+      for(var i =0; i < count; i++) {
+        promises.push(GetClaim(coinbase, i));
+      }
+
+      return $q.all(promises);
+      
+    })
+    .then( (claims) => {
+      q.resolve(claims);
     });
 
     return q.promise;
@@ -123,7 +185,22 @@ function web3jsFactory($rootScope, $http, $q) {
     return q.promise;
   }
 
-  
+  function CreateClaim(name, ipfs) {
+
+    const q = $q.defer();
+
+    __web3.contract.createClaim(name, ipfs, undefined, undefined, (err, data) => {
+
+      if (err) {
+        console.log('CreateClaim error', err.message);
+        q.reject(err);
+      }
+
+      q.resolve(data);
+    });
+
+    return q.promise;
+  }
 
   return {
     web3js: __web3,
@@ -134,6 +211,8 @@ function web3jsFactory($rootScope, $http, $q) {
     loadContract: LoadContract,
     // Contract Methods
     getBio: GetBio,
-    register: Register
+    register: Register,
+    createClaim:CreateClaim,
+    getAllClaimsForAddress:GetAllClaimsForAddress
   };
 }

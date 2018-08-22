@@ -19,7 +19,7 @@ function profileController($uibModal, $timeout, growlService, usersFactory, ipfs
     coinbase: usersFactory.me.coinbase,
     bioIpfs: usersFactory.me.ipfs,
   };
-  
+
   profileCtrl.myClaims = [];
   profileCtrl.allClaims = [];
 
@@ -44,8 +44,22 @@ function profileController($uibModal, $timeout, growlService, usersFactory, ipfs
     });
 
     modalInstance.result
-    .then(function (selectedItem) {
-      $ctrl.selected = selectedItem;
+    .then(function (claim) {
+
+      const claimModel = ipfsFactory.createClaimModel(claim.name, claim.descrption, claim.image);
+
+      ipfsFactory.addFile(profileCtrl.me.coinbase, JSON.stringify(claimModel))
+        .then((path) => {
+          return web3jsFactory.createClaim(claim.name, path);
+        })
+        .then((data) => {
+          // accessCtrl.hash = data;
+          // accessCtrl.busy = false;
+        })
+        .catch(() => {
+          growlService.growl('Oops something went wrong! :(', 'inverse');
+        });
+
     })
     .catch(function () {
       $log.info('Modal dismissed at: ' + new Date());
@@ -80,9 +94,16 @@ function profileController($uibModal, $timeout, growlService, usersFactory, ipfs
 function modalInstanceController($uibModalInstance, coinbase) {
   var modalInstanceCtrl = this;
   modalInstanceCtrl.coinbase = coinbase;
+  modalInstanceCtrl.name = null;
+  modalInstanceCtrl.description = null;
+  modalInstanceCtrl.image = [];
 
   modalInstanceCtrl.ok = function () {
-    $uibModalInstance.close(modalInstanceCtrl.coinbase);
+    $uibModalInstance.close({
+      name: modalInstanceCtrl.name,
+      description: modalInstanceCtrl.description,
+      image: modalInstanceCtrl.image
+    });
   };
 
   modalInstanceCtrl.cancel = function () {
