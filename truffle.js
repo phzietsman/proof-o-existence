@@ -1,4 +1,4 @@
-const HDWalletProvider = require("truffle-hdwallet-provider");
+// const HDWalletProvider = require("truffle-hdwallet-provider");
 const mnemonic = "";
 const infuraToken = "";
 
@@ -11,7 +11,7 @@ module.exports = {
     }
   },
   rinkeby: {
-    provider: () => new HDWalletProvider(mnemonic, `https://rinkeby.infura.io/v3/${infuraToken}`),
+    provider: () => new require("truffle-hdwallet-provider")(mnemonic, `https://rinkeby.infura.io/v3/${infuraToken}`),
     network_id: 4,
     gas: 4500000, // Gas limit used for deploys
     gasPrice: 25000000000
