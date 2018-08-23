@@ -54,3 +54,15 @@ browserify > npm install -g browserify
 ├── npm@6.3.0
 ├── truffle@4.1.14
 └── truffle-hdwallet-provider@0.0.5
+
+
+https://ethereum.stackexchange.com/questions/11866/web3-how-do-i-get-past-events-of-mycontract-myevent
+
+
+
+![execute](./README/signup.png?raw=true)
+![execute](./README/proof_of_contract.png?raw=true)
+
+
+[Design pattern](README/design_pattern_desicions.md)
+[Security](README/avoiding_common_attacks.md)
