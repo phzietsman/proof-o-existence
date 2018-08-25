@@ -62,3 +62,11 @@ https://ethereum.stackexchange.com/questions/11866/web3-how-do-i-get-past-events
 
 [Design pattern](README/design_pattern_desicions.md)
 [Security](README/avoiding_common_attacks.md)
+
+
+truffle-secret.js
+
+module.exports = {
+  mnemonic: "",
+  infura: ""
+}
