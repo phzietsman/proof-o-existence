@@ -79,6 +79,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
 
     // Default task(s).
-    grunt.registerTask('default', ['less', 'ngtemplates', 'copy:abi', 'watch']);
+    grunt.registerTask('default', ['less', 'ngtemplates', 'watch']);
 
 };
