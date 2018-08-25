@@ -1,4 +1,3 @@
-const secrets = require("./truffle-secrets");
 const HardwareWallet = require("truffle-hdwallet-provider");
 
 module.exports = {
@@ -9,7 +8,7 @@ module.exports = {
       network_id: "*" // match any network
     },
     rinkeby: {
-      provider: () => new HardwareWallet(secrets.mnemonic, secrets.infura),
+      provider: () => new HardwareWallet(require("./truffle-secrets").mnemonic, require("./truffle-secrets").infura),
       network_id: 4,
       gas: 4500000, // Gas limit used for deploys
       gasPrice: 25000000000
