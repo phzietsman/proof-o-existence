@@ -5,6 +5,7 @@ import "./ProofOfExistenceStructs.sol";
 
 import "./openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
+/** @title ProofOfExistence - main contract with all the storage and functions */
 contract ProofOfExistence is ProofOfExistenceEvents, ProofOfExistenceStructs, Ownable {
 
   // ================================================  
@@ -12,47 +13,87 @@ contract ProofOfExistence is ProofOfExistenceEvents, ProofOfExistenceStructs, Ow
   // ================================================
   address[] private registeredAddresses;
 
-  mapping(address => IpfsObject[]) private addressClaim;
-  mapping(address => IpfsObject) private addressBio;
+  mapping(address => ClaimObject[]) private addressClaim;
+  mapping(address => BioObject) private addressBio;
 
   // ================================================  
   // Modifiers
   // ================================================
   modifier onlyRegisteredAddresses() {
-    IpfsObject memory thisAddressBio = addressBio[msg.sender];
+    BioObject memory thisAddressBio = addressBio[msg.sender];
     require(thisAddressBio.blockNumber > 0, "AddresNotRegistered");
     _;
   }
 
   modifier onlyNewAddresses() {
-    IpfsObject memory thisAddressBio = addressBio[msg.sender];
+    BioObject memory thisAddressBio = addressBio[msg.sender];
     require(thisAddressBio.blockNumber == 0, "AddresAlreadyRegistered");
     _;
   }
 
   constructor() public { 
-    // Create a blank bio, such that there will never be a valid address 
-    // at any index 0;
     address zeroAddress = 0x0;
     registeredAddresses.push(zeroAddress);
-    addressBio[zeroAddress] = IpfsObject("ZeroAddress", "", 0);
+    addressBio[zeroAddress] = BioObject("ZeroAddress", "", 0);
   }
 
   function getClaim (address _address, uint256 _index)
   public
   view
-  returns (string claimName, string claimIpfs, uint claimBlockNumber)
+  returns (string claimName, string claimIpfs, uint claimBlockNumber, uint upVote, uint downVote)
   {
-    IpfsObject memory thisClaim = addressClaim[_address][_index];
-    return (thisClaim.name, thisClaim.ipfs, thisClaim.blockNumber);
+    ClaimObject memory thisClaim = addressClaim[_address][_index];
+    return (thisClaim.name, thisClaim.ipfs, thisClaim.blockNumber, thisClaim.upVoteCount, thisClaim.downVoteCount);
   }
 
-  function createClaim (string name, string ipfs)
+  function createClaim (string _name, string _ipfs)
   public
+  onlyRegisteredAddresses
   returns (uint claimBlockNumber)
   {
-    IpfsObject memory newClaim = IpfsObject(name, ipfs, block.number);
+    ClaimObject memory newClaim = ClaimObject(_name, _ipfs, block.number, 0, 0);
     addressClaim[msg.sender].push(newClaim);
+    emit NewClaim(msg.sender, addressClaim[msg.sender].length - 1);
+    return block.number;
+  }
+
+  function upVoteClaim (address _address, uint256 _index)
+  public
+  onlyRegisteredAddresses
+  returns (uint claimBlockNumber)
+  {
+    EndorseStatus currentVote = addressClaim[_address][_index].Endorsements[msg.sender];
+
+    if(currentVote == EndorseStatus.DownVote) {
+      addressClaim[_address][_index].downVoteCount -= 1;
+    } else if(currentVote == EndorseStatus.UpVote) {
+      addressClaim[_address][_index].upVoteCount -= 1;
+    }
+
+    addressClaim[_address][_index].upVoteCount += 1;
+    addressClaim[_address][_index].Endorsements[msg.sender] = EndorseStatus.UpVote;
+    
+    emit UpVote(_address, _index);
+    return block.number;
+  }
+
+  function downVoteClaim (address _address, uint256 _index)
+  public
+  onlyRegisteredAddresses
+  returns (uint claimBlockNumber)
+  {
+    EndorseStatus currentVote = addressClaim[_address][_index].Endorsements[msg.sender];
+
+    if(currentVote == EndorseStatus.DownVote) {
+      addressClaim[_address][_index].downVoteCount -= 1;
+    } else if(currentVote == EndorseStatus.UpVote) {
+      addressClaim[_address][_index].upVoteCount -= 1;
+    }
+
+    addressClaim[_address][_index].downVoteCount += 1;
+    addressClaim[_address][_index].Endorsements[msg.sender] = EndorseStatus.DownVote;
+    
+    emit DownVote(_address, _index);
     return block.number;
   }
 
@@ -69,7 +110,7 @@ contract ProofOfExistence is ProofOfExistenceEvents, ProofOfExistenceStructs, Ow
   view
   returns (string name, string ipfs, uint blockNumber)
   {
-    IpfsObject memory thisBio = addressBio[_address];
+    BioObject memory thisBio = addressBio[_address];
     return (thisBio.name, thisBio.ipfs, thisBio.blockNumber);
   }
 
@@ -110,7 +151,6 @@ contract ProofOfExistence is ProofOfExistenceEvents, ProofOfExistenceStructs, Ow
   {
     addressBio[msg.sender].name = _name; 
     addressBio[msg.sender].ipfs = _ipfs; 
-    addressBio[msg.sender].blockNumber = block.number;
     return addressBio[msg.sender].blockNumber;
   }
 
