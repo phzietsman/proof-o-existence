@@ -48,12 +48,8 @@ npm -g ls --depth 0
 truffle-hdwallet-provider > npm install -g truffle-hdwallet-provider
 browserify > npm install -g browserify
 
-├── browserify@16.2.2
-├── grunt-cli@1.2.0
-├── http-server@0.11.1
 ├── npm@6.3.0
 ├── truffle@4.1.14
-└── truffle-hdwallet-provider@0.0.5
 
 
 https://ethereum.stackexchange.com/questions/11866/web3-how-do-i-get-past-events-of-mycontract-myevent

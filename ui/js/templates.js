@@ -7,7 +7,7 @@ angular.module('POEApp').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('template/footer.html',
-    "Rinkeby Contract: {{profileCtrl.contractAddress}}<ul class=\"f-menu\"><li><a href=\"\">Rinkeby</a></li></ul>"
+    "Rinkeby Contract: {{mactrl.contractAddress}}<ul class=\"f-menu\"><li><a href=\"\">Rinkeby</a></li></ul>"
   );
 
 

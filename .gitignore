@@ -3,7 +3,7 @@ build/
 
 
 # Ignore UI build artifacts
-ui/node_modules/
+node_modules/
 
 # Need these to serve from github.io
 # ui/js/templates\.js
