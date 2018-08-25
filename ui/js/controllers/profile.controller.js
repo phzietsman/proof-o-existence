@@ -76,9 +76,8 @@ function profileController($rootScope, $state, $uibModal, $timeout, growlService
 
   }
 
-  function __refresh() { }
+  function __search(term) { 
 
-  function __search(term) {
     switch ($state.current.name) {
       case "profile.profile-claims":
         profileCtrl.myClaimFilter = term;
@@ -87,6 +86,24 @@ function profileController($rootScope, $state, $uibModal, $timeout, growlService
       case "profile.profile-all-claims":
         profileCtrl.myClaimFilter = "";
         profileCtrl.allClaimFilter = term;
+        break;
+    }
+
+  }
+
+  function __refresh() {
+    switch ($state.current.name) {
+      case "profile.profile-claims":
+        $rootScope.$emit('LOADING:TRUE');
+        __getAllMyClaims();
+        break;
+      case "profile.profile-all-claims":
+        $rootScope.$emit('LOADING:TRUE');
+        __getAllClaims();
+        break;
+      case "profile.profile-about":
+        $rootScope.$emit('LOADING:TRUE');  
+        __loadBio();
         break;
     }
 
@@ -113,6 +130,8 @@ function profileController($rootScope, $state, $uibModal, $timeout, growlService
         profileCtrl.me.name = bio.name;
         profileCtrl.me.twitter = bio.social.twitter;
         profileCtrl.me.mastodon = bio.social.mastodon;
+
+        $rootScope.$emit('LOADING:FALSE');
       });
   }
 
@@ -123,14 +142,18 @@ function profileController($rootScope, $state, $uibModal, $timeout, growlService
         profileCtrl.myClaims.forEach((claim) => {
           ipfsFactory.getFile(claim.ipfs)
             .then((data) => {
-              claim.pic = data.image.result
-              claim.description = data.description
+              claim.pic = data.image.result;
+              claim.description = data.description;
+              $rootScope.$emit('LOADING:FALSE');
             });
         });
       });
   }
 
   function __getAllClaims() {
+
+    profileCtrl.allClaims = [];
+
     web3jsFactory.getAllRegisteredAddresses()
       .then((addresses) => {
         addresses.forEach((address) => {
@@ -140,6 +163,7 @@ function profileController($rootScope, $state, $uibModal, $timeout, growlService
 
               web3jsFactory.getAllClaimsForAddress(address)
                 .then((claims) => {
+                  
                   claims.forEach((claim) => {
                     ipfsFactory.getFile(claim.ipfs)
                       .then((data) => {
@@ -149,9 +173,12 @@ function profileController($rootScope, $state, $uibModal, $timeout, growlService
                         claim.ownerIpfs = bio.ipfs;
 
                         profileCtrl.allClaims.push(claim);
+                        // More will load, but the first is available;
+                        $rootScope.$emit('LOADING:FALSE');
 
                       });
                   });
+
                 });
 
             })
@@ -159,15 +186,12 @@ function profileController($rootScope, $state, $uibModal, $timeout, growlService
       });
   }
 
-
   $timeout(init, 100);
   function init() {
 
     __loadBio();
     __getAllMyClaims();
     __getAllClaims();
-
-
 
   }
 
