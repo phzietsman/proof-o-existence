@@ -212,7 +212,8 @@ function web3jsFactory($rootScope, $http, $q) {
 
       q.resolve({
         owner: coinbase,
-        
+        index: index,
+
         name:data[0],
         ipfs:data[1],
         block: data[2].valueOf(),
