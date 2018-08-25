@@ -5,8 +5,15 @@
 
     <li class="pull-right">
         <ul class="top-menu">
+            <li data-ng-if="mactrl.loading">
+                <div class="preloader">
+                    <svg class="pl-circular" viewBox="25 25 50 50">
+                        <circle class="plc-path" cx="50" cy="50" r="20" />
+                    </svg>
+                </div>
+            </li>
             <li id="top-search">
-                <a href="" data-ng-click="hctrl.openSearch()"><i class="tm-icon zmdi zmdi-search"></i></a>
+                <a href="" data-ng-click="profileCtrl.openSearch()"><i class="tm-icon zmdi zmdi-search"></i></a>
             </li>
             <li>
                 <a href=""><i class="tm-icon zmdi zmdi-refresh-sync"></i></a>
@@ -18,7 +25,7 @@
 <!-- Top Search Content -->
 <div id="top-search-wrap">
     <div class="tsw-inner">
-        <i id="top-search-close" class="zmdi zmdi-arrow-left" data-ng-click="hctrl.closeSearch()"></i>
-        <input type="text">
+        <i id="top-search-close" class="zmdi zmdi-close" data-ng-click="profileCtrl.closeSearch()"></i>
+        <input type="text" ng-model="profileCtrl.searchValue" ng-change="profileCtrl.search(profileCtrl.searchValue)">
     </div>
 </div>

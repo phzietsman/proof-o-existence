@@ -3,11 +3,19 @@
         <a>PoE</a>
     </li>
     <li class="pull-right">
-            <ul class="top-menu">
-                <li>
-                    <a data-ng-click="accessCtrl.login()"><i class="tm-icon zmdi zmdi-account-o"></i></a>
-                </li>
-            </ul>
+        <ul class="top-menu">
+
+            <li data-ng-if="mactrl.loading">
+                <div class="preloader">
+                    <svg class="pl-circular" viewBox="25 25 50 50">
+                        <circle class="plc-path" cx="50" cy="50" r="20" />
+                    </svg>
+                </div>
+            </li>
+
+            <li>
+                <a data-ng-click="accessCtrl.login()"><i class="tm-icon zmdi zmdi-account-o"></i></a>
+            </li>
+        </ul>
     </li>
 </ul>
-

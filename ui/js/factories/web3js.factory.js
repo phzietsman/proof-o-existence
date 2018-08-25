@@ -13,6 +13,7 @@ function web3jsFactory($rootScope, $http, $q) {
 
   var __web3 = {
     found: false,
+    network: 9999,
     instance: null,
     version: null,
     contract: null
@@ -20,9 +21,41 @@ function web3jsFactory($rootScope, $http, $q) {
 
   function InitializeWeb3js(web3, Web3) {
 
+    const q = $q.defer();
+
     __web3.version = web3.version.api;
     __web3.instance = new Web3(web3.currentProvider);
     __web3.found = true;
+
+    web3.version.getNetwork((err, netId) => {
+
+      if(err) {
+        q.resolve(__web3);
+        return;
+      }
+
+      switch (netId) {
+        case "1":
+          console.log('This is mainnet')
+          break
+        case "2":
+          console.log('This is the deprecated Morden test network.')
+          break
+        case "3":
+          console.log('This is the ropsten test network.')
+          break
+        case "4":
+          console.log('This is the rinkeby test network.')
+          break
+        default:
+          console.log(`Develpment network: ${netId}`)
+      }
+      __web3.network = netId;
+      q.resolve(__web3);
+
+    });
+    
+    return q.promise;
 
   }
 
@@ -55,17 +88,18 @@ function web3jsFactory($rootScope, $http, $q) {
     return q.promise;
   }
 
-  function LoadContract(network) {
+  function LoadContract() {
     
     const q = $q.defer();
 
-    if(!network) {
-      // default to develop network
-      network = "4447";
-    }
-
+    
+    
     $http.get('./js/ProofOfExistence.json')
     .then(response => {
+      
+      const network = __web3.network ? __web3.network :  "4447";
+
+
       console.info(`ProofOfExistence Contract Address ${response.data.networks[network].address} for network ${network}`);
 
       const cont = __web3.instance.eth.contract(response.data.abi);
@@ -101,6 +135,48 @@ function web3jsFactory($rootScope, $http, $q) {
       }
 
       q.resolve(mapped);
+    });
+
+    return q.promise;
+  }
+
+  // =========================================
+  // Claims Methods
+  // =========================================
+
+  function CreateClaim(name, ipfs) {
+
+    const q = $q.defer();
+
+    __web3.contract.createClaim(name, ipfs, undefined, undefined, (err, data) => {
+
+      if (err) {
+        console.log('CreateClaim error', err.message);
+        q.reject(err);
+      }
+
+      q.resolve(data);
+    });
+
+    return q.promise;
+  }
+
+  function GetAllClaimsForAddress(coinbase) {
+    const q = $q.defer();
+
+    GetClaimsCount(coinbase)
+    .then( (count) => {
+
+      var promises = [];
+      for(var i =0; i < count; i++) {
+        promises.push(GetClaim(coinbase, i));
+      }
+
+      return $q.all(promises);
+      
+    })
+    .then( (claims) => {
+      q.resolve(claims);
     });
 
     return q.promise;
@@ -149,15 +225,19 @@ function web3jsFactory($rootScope, $http, $q) {
     return q.promise;
   }
 
-  function GetAllClaimsForAddress(coinbase) {
+  // =========================================
+  // Get Claims Methods
+  // =========================================
+
+  function GetAllRegisteredAddresses() {
     const q = $q.defer();
 
-    GetClaimsCount(coinbase)
+    GetRegisteredAddressCount()
     .then( (count) => {
 
       var promises = [];
-      for(var i =0; i < count; i++) {
-        promises.push(GetClaim(coinbase, i));
+      for(var i = 0; i < count; i++) {
+        promises.push(GetRegisteredAddress(i));
       }
 
       return $q.all(promises);
@@ -170,6 +250,46 @@ function web3jsFactory($rootScope, $http, $q) {
     return q.promise;
   }
 
+  function GetRegisteredAddressCount() {
+
+    const q = $q.defer();
+
+    __web3.contract.getRegisteredAddressCount(undefined, undefined, (err, data) => {
+
+      if (err) {
+        console.log('GetRegisteredAddressCount error', err.message);
+        q.resolve(0);
+      }
+
+      q.resolve(data.valueOf());
+
+     });
+
+    return q.promise;
+  }
+
+  function GetRegisteredAddress(index) {
+
+    const q = $q.defer();
+
+    __web3.contract.getRegisteredAddress(index, undefined, undefined, (err, data) => {
+
+      if (err) {
+        console.log('GetClaim error', err.message);
+        q.reject(err);
+      }
+
+      q.resolve(data);
+
+    });
+
+    return q.promise;
+  }
+  
+  // =========================================
+  // Register
+  // =========================================
+  
   function Register(name, ipfs) {
 
     const q = $q.defer();
@@ -187,22 +307,6 @@ function web3jsFactory($rootScope, $http, $q) {
     return q.promise;
   }
 
-  function CreateClaim(name, ipfs) {
-
-    const q = $q.defer();
-
-    __web3.contract.createClaim(name, ipfs, undefined, undefined, (err, data) => {
-
-      if (err) {
-        console.log('CreateClaim error', err.message);
-        q.reject(err);
-      }
-
-      q.resolve(data);
-    });
-
-    return q.promise;
-  }
 
   return {
     web3js: __web3,
@@ -215,6 +319,7 @@ function web3jsFactory($rootScope, $http, $q) {
     getBio: GetBio,
     register: Register,
     createClaim:CreateClaim,
-    getAllClaimsForAddress:GetAllClaimsForAddress
+    getAllClaimsForAddress:GetAllClaimsForAddress,
+    getAllRegisteredAddresses: GetAllRegisteredAddresses
   };
 }

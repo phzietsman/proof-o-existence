@@ -14,6 +14,7 @@ angular.module('POEApp').run([
     '$rootScope',
     '$state',
     '$window',
+    'growlService',
     'web3jsFactory',
     'usersFactory',
     function (
@@ -21,14 +22,20 @@ angular.module('POEApp').run([
         $rootScope,
         $state,
         $window,
+        growlService,
         web3jsFactory,
         usersFactory
     ) {
 
         if($window.web3) {
             console.info("Web3js found");
-            web3jsFactory.initializeWeb3js($window.web3, $window.Web3);
-            web3jsFactory.loadContract("4447");
+            web3jsFactory.initializeWeb3js($window.web3, $window.Web3)
+            .then( (result) => {
+                console.log("web3", result);
+                return web3jsFactory.loadContract();
+            })            
+            .then(()=>{ })
+            .catch(()=>{ growlService.growl(`Could not load Contract`, 'danger'); })
         } else {
             $state.go('web3jsMissing');
         }

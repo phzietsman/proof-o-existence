@@ -5,7 +5,7 @@
     </button>
 
 
-    <div class="t-view" data-tv-type="image" data-ng-repeat="claim in profileCtrl.myClaims">
+    <div class="t-view" data-tv-type="image" data-ng-repeat="claim in profileCtrl.myClaims | filter: profileCtrl.myClaimFilter">
         <div class="tv-header media">
             <div class="media-body p-t-5">
                 <strong class="d-block">{{claim.name}}</strong>
@@ -17,9 +17,9 @@
         <div class="tv-body">
 
             <div class="lightbox m-b-20">
-                <div data-ng-src="{{claim.pic}}">
+                <div data-src="img/claims/error.png">
                     <div class="lightbox-item pull-left">
-                        <img data-ng-src="{{claim.pic}}" alt="">
+                        <img ng-src="{{claim.pic}}" alt="">
                     </div>
                 </div>
             </div>
@@ -28,13 +28,13 @@
 
                 <dl class="dl-horizontal">
                     <dt>IPFS</dt>
-                    <dd><a href="https://ipfs.infura.io/ipfs/{{claim.ipfs}}">{{claim.ipfs}}</a></dd>
+                    <dd><a href="https://ipfs.infura.io/ipfs/{{claim.ipfs}}">{{mactrl.shortenIpfs(claim.ipfs)}}</a></dd>
                 </dl>
 
                 <div class="dl-horizontal">
                     <dt>Description</dt>
                     <dd>
-                            {{claim.description}}
+                        {{claim.description}}
                         <br>
                     </dd>
                 </div>

@@ -2,10 +2,10 @@ angular.module('POEApp')
   .controller('profileController', profileController)
   .controller('modalInstanceController', modalInstanceController);
 
-profileController.$inject = ['$uibModal', '$timeout', 'growlService', 'usersFactory', 'ipfsFactory', 'web3jsFactory'];
+profileController.$inject = ['$rootScope', '$state', '$uibModal', '$timeout', 'growlService', 'usersFactory', 'ipfsFactory', 'web3jsFactory'];
 modalInstanceController.$inject = ['$uibModalInstance', 'coinbase']
 
-function profileController($uibModal, $timeout, growlService, usersFactory, ipfsFactory, web3jsFactory) {
+function profileController($rootScope, $state, $uibModal, $timeout, growlService, usersFactory, ipfsFactory, web3jsFactory) {
 
   var profileCtrl = this;
 
@@ -23,9 +23,15 @@ function profileController($uibModal, $timeout, growlService, usersFactory, ipfs
   profileCtrl.myClaims = [];
   profileCtrl.allClaims = [];
 
+  profileCtrl.myClaimFilter = "";
+  profileCtrl.allClaimFilter = "";
+  profileCtrl.searchValue = "";
+
   profileCtrl.addClaim = __addClaim;
   profileCtrl.refresh = __refresh;
   profileCtrl.search = __search;
+  profileCtrl.openSearch = __openSearch;
+  profileCtrl.closeSearch = __closeSearch;
 
   function __addClaim() {
     var modalInstance = $uibModal.open({
@@ -44,63 +50,126 @@ function profileController($uibModal, $timeout, growlService, usersFactory, ipfs
     });
 
     modalInstance.result
-    .then(function (claim) {
+      .then(function (claim) {
 
-      const claimModel = ipfsFactory.createClaimModel(claim.name, claim.description, claim.image);
+        $rootScope.$emit('LOADING:TRUE');
 
-      ipfsFactory.addFile(profileCtrl.me.coinbase, JSON.stringify(claimModel))
-        .then((path) => {
-          return web3jsFactory.createClaim(claim.name, path);
-        })
-        .then((data) => {
-          console.log(`check this ${data.hash}`);
-          growlService.growl(`Whoop, transaction submitted (${data.hash})`, 'inverse');
-        })
-        .catch(() => {
-          growlService.growl('Oops something went wrong! :(', 'inverse');
-        });
+        const claimModel = ipfsFactory.createClaimModel(claim.name, claim.description, claim.image);
+        growlService.growl('syncing to ipfs :o', 'info');
+        ipfsFactory.addFile(profileCtrl.me.coinbase, JSON.stringify(claimModel))
+          .then((path) => {
+            return web3jsFactory.createClaim(claim.name, path);
+          })
+          .then((data) => {
+            $rootScope.$emit('LOADING:FALSE');
+            growlService.growl(`Whoop, transaction submitted (${data.hash})`, 'success');
+          })
+          .catch(() => {
+            $rootScope.$emit('LOADING:FALSE');
+            growlService.growl('Oops something went wrong! :(', 'warning');
+          });
 
-    })
-    .catch(function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
+      })
+      .catch(function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
 
   }
 
   function __refresh() { }
-  function __search(term) { }
 
-
-  
-  $timeout(init, 100);
-  function init() {
-    // Get bio
-    ipfsFactory.getFile(usersFactory.me.ipfs)
-    .then( (bio) => {
-      // console.log(bio);
-      profileCtrl.me.pic = bio.image.result;
-      profileCtrl.me.name = bio.name;
-      profileCtrl.me.twitter = bio.social.twitter;
-      profileCtrl.me.mastodon = bio.social.mastodon;
-    });
-
-    web3jsFactory.getAllClaimsForAddress(usersFactory.me.coinbase)
-    .then((claims) => {
-      profileCtrl.myClaims = claims;
-      profileCtrl.myClaims.forEach( (claim) => {
-        ipfsFactory.getFile(claim.ipfs)
-        .then((data) => {
-          claim.pic = data.image.result
-          claim.description = data.description
-        });
-      });
-    });
-
+  function __search(term) {
+    switch ($state.current.name) {
+      case "profile.profile-claims":
+        profileCtrl.myClaimFilter = term;
+        profileCtrl.allClaimFilter = "";
+        break;
+      case "profile.profile-all-claims":
+        profileCtrl.myClaimFilter = "";
+        profileCtrl.allClaimFilter = term;
+        break;
+    }
 
   }
 
+  function __openSearch() {
+    angular.element('#header').addClass('search-toggled');
+    angular.element('#top-search-wrap').find('input').focus();
+  }
+
+  function __closeSearch() {
+    angular.element('#header').removeClass('search-toggled');
+    profileCtrl.myClaimFilter = "";
+    profileCtrl.allClaimFilter = "";
+    profileCtrl.searchValue = "";
+  }
+
+  function __loadBio() {
+    // Get bio
+    ipfsFactory.getFile(usersFactory.me.ipfs)
+      .then((bio) => {
+        // console.log(bio);
+        profileCtrl.me.pic = bio.image.result;
+        profileCtrl.me.name = bio.name;
+        profileCtrl.me.twitter = bio.social.twitter;
+        profileCtrl.me.mastodon = bio.social.mastodon;
+      });
+  }
+
+  function __getAllMyClaims() {
+    web3jsFactory.getAllClaimsForAddress(usersFactory.me.coinbase)
+      .then((claims) => {
+        profileCtrl.myClaims = claims;
+        profileCtrl.myClaims.forEach((claim) => {
+          ipfsFactory.getFile(claim.ipfs)
+            .then((data) => {
+              claim.pic = data.image.result
+              claim.description = data.description
+            });
+        });
+      });
+  }
+
+  function __getAllClaims() {
+    web3jsFactory.getAllRegisteredAddresses()
+      .then((addresses) => {
+        addresses.forEach((address) => {
+
+          web3jsFactory.getBio(address)
+            .then((bio) => {
+
+              web3jsFactory.getAllClaimsForAddress(address)
+                .then((claims) => {
+                  claims.forEach((claim) => {
+                    ipfsFactory.getFile(claim.ipfs)
+                      .then((data) => {
+                        claim.pic = data.image.result;
+                        claim.description = data.description;
+                        claim.ownerName = bio.name;
+                        claim.ownerIpfs = bio.ipfs;
+
+                        profileCtrl.allClaims.push(claim);
+
+                      });
+                  });
+                });
+
+            })
+        });
+      });
+  }
 
 
+  $timeout(init, 100);
+  function init() {
+
+    __loadBio();
+    __getAllMyClaims();
+    __getAllClaims();
+
+
+
+  }
 
 }
 

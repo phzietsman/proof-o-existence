@@ -51,6 +51,13 @@ module.exports = function(grunt) {
                 options: {
                     nospawn: true
                 }
+            },
+            c: {
+                files: ['../build/contracts/ProofOfExistence.json'], // which files to watch
+                tasks: ['copy'],
+                options: {
+                    nospawn: true
+                }
             }
         },
         copy: {

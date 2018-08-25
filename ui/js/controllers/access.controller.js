@@ -2,9 +2,9 @@ angular.module('POEApp')
   .controller('accessController', accessController)
   .directive("selectNgFiles", selectNgFiles);
 
-accessController.$inject = ['$state', '$timeout', 'growlService', 'usersFactory', 'ipfsFactory', 'web3jsFactory'];
+accessController.$inject = ['$rootScope', '$timeout', 'growlService', 'usersFactory', 'ipfsFactory', 'web3jsFactory'];
 
-function accessController($state, $timeout, growlService, usersFactory, ipfsFactory, web3jsFactory) {
+function accessController($rootScope, $timeout, growlService, usersFactory, ipfsFactory, web3jsFactory) {
 
   var accessCtrl = this;
 
@@ -27,19 +27,24 @@ function accessController($state, $timeout, growlService, usersFactory, ipfsFact
     accessCtrl.busy = true;
     const userModel = ipfsFactory.createUserModel(accessCtrl.name, accessCtrl.twitter, accessCtrl.mastodon, accessCtrl.image[0]);
 
+    $rootScope.$emit('LOADING:TRUE');
+
     if (accessCtrl.ipfs) {
 
       web3jsFactory.register(accessCtrl.name, accessCtrl.ipfs)
         .then((data) => {
           accessCtrl.hash = data;
           accessCtrl.busy = false;
+          $rootScope.$emit('LOADING:FALSE');
         })
         .catch(() => {
           accessCtrl.busy = false;
-          growlService.growl('Oops something went wrong! :(', 'inverse');
+          growlService.growl('Oops something went wrong! :(', 'warning');
+          $rootScope.$emit('LOADING:FALSE');
         });
     } else {
 
+      growlService.growl('syncing to ipfs :o', 'info');
       ipfsFactory.addFile(accessCtrl.coinbase, JSON.stringify(userModel))
         .then((path) => {
           accessCtrl.ipfs = path;
@@ -48,27 +53,33 @@ function accessController($state, $timeout, growlService, usersFactory, ipfsFact
         .then((data) => {
           accessCtrl.hash = data;
           accessCtrl.busy = false;
+          $rootScope.$emit('LOADING:FALSE');
         })
         .catch(() => {
           accessCtrl.busy = false;
-          growlService.growl('Oops something went wrong! :(', 'inverse');
+          growlService.growl('Oops something went wrong! :(', 'warning');
+          $rootScope.$emit('LOADING:FALSE');
         });
     }
   }
 
   function __login() {
+    $rootScope.$emit('LOADING:TRUE');
     usersFactory.login()
       .then(() => { 
-        growlService.growl('Whoop! :)', 'inverse') 
+        // growlService.growl('Whoop! :)', 'inverse') 
+        $rootScope.$emit('LOADING:FALSE');
       })
       .catch((e) => {
 
+        $rootScope.$emit('LOADING:FALSE');
+
         if (e === "Login:NotRegistered") {
-          growlService.growl('Sure you are registered? :|', 'inverse');
+          growlService.growl('Sure you are registered? :|', 'info');
         }
 
         if (e === "Login:Error") {
-          growlService.growl('Oops something went wrong! :(', 'inverse');
+          growlService.growl('Oops something went wrong! :(', 'warning');
         }
 
       });
