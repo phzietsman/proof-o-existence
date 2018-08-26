@@ -34,4 +34,4 @@ A VSCode Solidity plugin was used (juanblanco.solidity), which provides linting 
 Good test coverage ensures the contract does not fall prey to simple code bugs or logic issues, that is clear from the code, but easy to catch in testing.
 
 Test coverage is very good and the repository was hooked up with TravisCI to run 
-the tests everytime the code sis commited. This has the benfit that the code gets tested in a clean environment very often. 
+the tests everytime the code sis committed. This has the benefit that the code gets tested in a clean environment very often. 
