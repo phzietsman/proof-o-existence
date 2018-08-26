@@ -3,11 +3,11 @@
 
 This application allows users to prove existence of some information by showing a time stamped picture. The timestamping is provided by the adding the blocknumber in which the transaction was included, this cannot be tampered with and is the ultimate proof. The application is deployed to the [Rinkeby Testnet](https://rinkeby.etherscan.io/address/0x566049b56b36281d08d8fa4519b83d701094ce99) and can be interface with through [github pages](https://phzietsman.github.io/proof-o-existence/ui).
 
-In the application the you can create a **claim**. Claims can be viewed by anybody, but can only be **endorsed / up-voted** or **down-voted** by other registered users of the application. Claims (and user bios) gets uploaded to ipfs using the [infura](https://infura.io/) ifps gateway, the ipfs hash (which is also the file's address) is then associated with an Ethereum address in the smartcontract.
+In the application the you can create a **claim**. Claims can be viewed by anybody, but can only be **endorsed / up-voted** or **down-voted** by other registered users of the application. Claims (and user bios) gets uploaded to ipfs using the [infura](https://infura.io/) ipfs gateway, the ipfs hash (which is also the file's address) is then associated with an Ethereum address in the smartcontract.
 
 **Links:**  
-[Design pattern](README/design_pattern_desicions.md)  
-[Security](README/avoiding_common_attacks.md)  
+[Design Decisions](README/design_pattern_decisions.md)  
+[Avoiding Common Attacks](README/avoiding_common_attacks.md)  
 [Using the PoE app](README/how_to_use.md)  
 
 ## Tooling Requirements
@@ -21,7 +21,7 @@ To work on this project you will need the following:
 The project was created using `truffle init`. The UI is in the **ui/** directory.  The project has two *package.json* files, one in the project root and one in the **ui/** directory. The root node package.json has some of the node modules that would usually be installed globally (browserify, grunt-cli, ...) and tools to deploy the contract to public networks (like Rinkeby).
 
 ## Running the project
-### Install Depenedencies
+### Install Dependencies
 All dependencies will be installed from the project root. To install the run the following from the project root:  
 > `$ npm install`   
 
@@ -52,7 +52,7 @@ This will run the tests against truffle's built in develop network. The output s
 ![truffle-tests](./README/truffle-tests.png?raw=true)
 
 ### Deploy the Contract
-Two truffle-configs have been setup to deploy (migrate) the contratc to different networks:
+Two truffle-configs have been setup to deploy (migrate) the contract to different networks:
 
 ```javascript
 const HardwareWallet = require("truffle-hdwallet-provider");
@@ -75,10 +75,10 @@ module.exports = {
 ```
 To deploy to a public network make sure to create a file (truffle-secret.js) in the root of the project and export two variables (mnemonic and infura). More on deploying to using infura [here](https://truffleframework.com/tutorials/using-infura-custom-provider).
 
-To test the contratc on you local, first start a development blockchain by running the following command:   
+To test the contract on you local, first start a development blockchain by running the following command:   
 > `$ truffle develop`   
 
-this will create a test network with a few prefunded accounts:   
+this will create a test network with a few pre-funded accounts:   
 
 ![truffle-develop](./README/truffle-develop.png?raw=true)
 
