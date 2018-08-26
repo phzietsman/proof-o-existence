@@ -33,6 +33,10 @@ function profileController($rootScope, $state, $uibModal, $timeout, growlService
   profileCtrl.openSearch = __openSearch;
   profileCtrl.closeSearch = __closeSearch;
 
+  profileCtrl.upvote = __upvote;
+  profileCtrl.downvote = __downvote;
+
+
   function __addClaim() {
     var modalInstance = $uibModal.open({
       animation: false,
@@ -184,6 +188,36 @@ function profileController($rootScope, $state, $uibModal, $timeout, growlService
             })
         });
       });
+  }
+
+  function __upvote(claim) {
+    
+    $rootScope.$emit('LOADING:TRUE');
+
+    web3jsFactory.upvote(claim.owner, claim.index)
+    .then(() => {
+      growlService.growl(`Whoop, transaction submitted`, 'success');
+      $rootScope.$emit('LOADING:FALSE');
+    })
+    .catch(()=>{
+      growlService.growl('Oops something went wrong! :(', 'warning');
+      $rootScope.$emit('LOADING:FALSE');
+    });
+  }
+
+  function __downvote(claim) {
+    $rootScope.$emit('LOADING:TRUE');
+
+    web3jsFactory.downvote(claim.owner, claim.index)
+    .then(() => {
+      growlService.growl(`Whoop, transaction submitted`, 'success');
+      $rootScope.$emit('LOADING:FALSE');
+    })
+    .catch(()=>{
+      growlService.growl('Oops something went wrong! :(', 'warning');
+      $rootScope.$emit('LOADING:FALSE');
+    });
+
   }
 
   $timeout(init, 100);

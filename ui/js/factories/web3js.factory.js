@@ -312,6 +312,42 @@ function web3jsFactory($rootScope, $http, $q) {
     return q.promise;
   }
 
+  
+  function Upvote(address, index) {
+
+    const q = $q.defer();
+
+    __web3.contract.upVoteClaim(address, index, undefined, undefined, (err, data) => {
+
+      if (err) {
+        console.log('Upvote error', err.message);
+        q.reject(err);
+      }
+
+      q.resolve(data);
+    });
+
+    return q.promise;
+  }
+
+  function Downvote(address, index) {
+
+    const q = $q.defer();
+
+    __web3.contract.downVoteClaim(address, index, undefined, undefined, (err, data) => {
+
+      if (err) {
+        console.log('Downvote error', err.message);
+        q.reject(err);
+      }
+
+      q.resolve(data);
+    });
+
+    return q.promise;
+  }
+
+
 
   return {
     web3js: __web3,
@@ -325,6 +361,8 @@ function web3jsFactory($rootScope, $http, $q) {
     register: Register,
     createClaim:CreateClaim,
     getAllClaimsForAddress:GetAllClaimsForAddress,
-    getAllRegisteredAddresses: GetAllRegisteredAddresses
+    getAllRegisteredAddresses: GetAllRegisteredAddresses,
+    upvote: Upvote,
+    downvote: Downvote
   };
 }

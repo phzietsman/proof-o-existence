@@ -5,7 +5,7 @@
     </button>
 
 
-    <div class="t-view" data-tv-type="image" data-ng-repeat="claim in profileCtrl.myClaims | filter: profileCtrl.myClaimFilter">
+    <div class="t-view" data-tv-type="image" data-ng-repeat="claim in profileCtrl.myClaims | filter: profileCtrl.myClaimFilter | orderBy:'-block'">
         <div class="tv-header media">
             <div class="media-body p-t-5">
                 <strong class="d-block">{{claim.name}}</strong>
@@ -43,18 +43,16 @@
             <div class="clearfix"></div>
 
             <ul class="tvb-stats">
-                <li class="tvbs-likes">
+                <li class="tvbs-likes" data-ng-click="profileCtrl.upvote(claim)">
                     <i class="zmdi zmdi-thumb-up"></i> {{claim.up}}
-                    <span class="hidden-xs">Endorsed</span>
+                    <span class="hidden-xs">Agree</span>
+                </li>
+
+                <li class="tvbs-views" data-ng-click="profileCtrl.downvote(claim)">
+                    <i class="zmdi zmdi-thumb-down"></i> {{claim.down}}
+                    <span class="hidden-xs">Disagree</span>
                 </li>
             </ul>
-
-            <ul class="tvb-stats">
-                    <li class="tvbs-views">
-                        <i class="zmdi zmdi-thumb-down"></i> {{claim.down}}
-                        <span class="hidden-xs">Endorsed</span>
-                    </li>
-                </ul>
 
         </div>
     </div>

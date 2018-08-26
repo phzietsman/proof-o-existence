@@ -858,6 +858,7 @@ body.login-content:before {
   padding: 5px 10px 6px;
   border: 1px solid #ccc;
   margin-right: 2px;
+  cursor: pointer;
 }
 
 .t-view .tvb-stats > li i {
