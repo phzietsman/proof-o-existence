@@ -8,7 +8,7 @@ In the application the you can create a **claim**. Claims can be viewed by anybo
 **Links:**  
 [Design pattern](README/design_pattern_desicions.md)  
 [Security](README/avoiding_common_attacks.md)  
-[Using PoE](README/how_to_use.md)  
+[Using the PoE app](README/how_to_use.md)  
 
 ## Tooling Requirements
 To work on this project you will need the following:
@@ -39,7 +39,9 @@ To serve UI, from the project root run:
 
 this will start a webserver on port 8086 and the UI will be available [here](http://127.0.0.1:8086). The serve command output should look something like this:
 
-![truffle-tests](./README/serve.png?raw=true)
+![http-server](./README/serve.png?raw=true)
+
+Ensure you have MetaMask installed in your browser and you are either on a custom network or Rinkeby. If you change between networks in MetaMask, make sure to to refresh the web page.
 
 ### Testing Contract
 Tests are located in the standard truffle test directory. Note, the tests are making use of the async await notation. Ensure your node eviroment is on the correct version, otherwise this will not work. Tests are also automatically ran with [TravisCI](https://travis-ci.org/phzietsman/proof-o-existence.svg?branch=master. To run the tests, execute the following command from  the project root:   
@@ -71,10 +73,14 @@ module.exports = {
   }
 };
 ```
+To deploy to a public network make sure to create a file (truffle-secret.js) in the root of the project and export two variables (mnemonic and infura). More on deploying to using infura [here](https://truffleframework.com/tutorials/using-infura-custom-provider).
 
-truffle-secret.js
+To test the contratc on you local, first start a development blockchain by running the following command:   
+> `$ truffle develop`   
 
-module.exports = {
-  mnemonic: "",
-  infura: ""
-}
+this will create a test network with a few prefunded accounts:   
+
+![truffle-develop](./README/truffle-develop.png?raw=true)
+
+<!-- # The toys -->
+<!-- ![metamask](./README/metamask-logo.png) ![metamask](./README/ethereum.png) ![metamask](./README/ipfs.png) -->
