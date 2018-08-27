@@ -1,7 +1,7 @@
 # proof-o-existence
 [![Build Status](https://travis-ci.org/phzietsman/proof-o-existence.svg?branch=master)](https://travis-ci.org/phzietsman/proof-o-existence)
 
-This application allows users to prove existence of some information by showing a time stamped picture. The timestamping is provided by the adding the blocknumber in which the transaction was included, this cannot be tampered with and is the ultimate proof. The application is deployed to the [Rinkeby Testnet](https://rinkeby.etherscan.io/address/0x566049b56b36281d08d8fa4519b83d701094ce99) and can be interface with through [github pages](https://phzietsman.github.io/proof-o-existence/ui).
+This application allows users to proof existence of some information by showing a time stamped picture. The timestamping is provided by the adding the blocknumber in which the transaction was included, this cannot be tampered with and is the ultimate proof. The application is deployed to the [Rinkeby Testnet](https://rinkeby.etherscan.io/address/0x566049b56b36281d08d8fa4519b83d701094ce99) and can be interface with through [github pages](https://phzietsman.github.io/proof-o-existence/ui).
 
 In the application the you can create a **claim**. Claims can be viewed by anybody, but can only be **endorsed / up-voted** or **down-voted** by other registered users of the application. Claims (and user bios) gets uploaded to ipfs using the [infura](https://infura.io/) ipfs gateway, the ipfs hash (which is also the file's address) is then associated with an Ethereum address in the smartcontract.
 
