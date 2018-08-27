@@ -35,7 +35,7 @@ angular.module('POEApp').run([
                 return web3jsFactory.loadContract();
             })            
             .then(()=>{ })
-            .catch(()=>{ growlService.growl(`Could not load Contract`, 'danger'); })
+            .catch(()=>{ growlService.growl(`Could not load Contract. Ensure Metamask is set to Rinkeby.`, 'danger'); })
         } else {
             $state.go('web3jsMissing');
         }
